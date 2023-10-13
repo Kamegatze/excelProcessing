@@ -3,8 +3,8 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet id="2023-10-12-data-from-excel-file-table" author="shirayev">
-        <createTable tableName="data_from_excel_file">
+    <changeSet id="2023-10-12-people_passage" author="shirayev">
+        <createTable tableName="people_passage">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
