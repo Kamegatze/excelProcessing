@@ -16,6 +16,8 @@ public class SheetsDto {
 
     private String title;
 
+    private List<PeoplePassageDto> peoplePassages;
+
     private static ModelMapper model = new ModelMapper();
 
     public static List<Sheets> getSheetsEntity(List<SheetsDto> sheetsDtoList) {
