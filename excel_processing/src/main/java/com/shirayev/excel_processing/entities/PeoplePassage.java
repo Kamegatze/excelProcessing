@@ -35,5 +35,8 @@ public class PeoplePassage extends Essence{
     @Column
     private Time timeAction;
 
+    @ManyToOne
+    @JoinColumn(name = "sheet_id", nullable = false)
+    private Sheets sheet;
 
 }
