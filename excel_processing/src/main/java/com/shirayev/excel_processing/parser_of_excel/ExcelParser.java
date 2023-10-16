@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Component
@@ -63,8 +64,8 @@ public class ExcelParser {
         return records;
     }
 
-    public Map<String, List<Map<String, String>>> getSheets(String path, Boolean withATitle) throws IOException {
-        Workbook book = new HSSFWorkbook(new FileInputStream(path));
+    public Map<String, List<Map<String, String>>> getSheets(InputStream inputStream, Boolean withATitle) throws IOException {
+        Workbook book = new HSSFWorkbook(inputStream);
 
         Map<String, List<Map<String, String>>> sheets = new HashMap<>();
 
