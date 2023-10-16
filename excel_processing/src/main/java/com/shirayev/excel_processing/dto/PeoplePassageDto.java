@@ -32,7 +32,7 @@ public class PeoplePassageDto {
         return peoplePassageList.stream().map(item -> model.map(item, PeoplePassageDto.class)).toList();
     }
 
-    public static List<PeoplePassage> getPeoplePassage(List<PeoplePassageDto> peoplePassageList) {
+    public static List<PeoplePassage> getPeoplePassageEntity(List<PeoplePassageDto> peoplePassageList) {
         return peoplePassageList.stream().map(item -> model.map(item, PeoplePassage.class)).toList();
     }
 }
