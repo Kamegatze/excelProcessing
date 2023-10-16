@@ -12,16 +12,11 @@ import java.sql.Time;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class PeoplePassage {
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class PeoplePassage extends Essence{
+    
     @Column
     private String last_name;
 
