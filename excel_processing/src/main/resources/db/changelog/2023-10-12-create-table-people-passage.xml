@@ -5,7 +5,7 @@
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="2023-10-12-create-table-people_passage" author="shirayev">
         <createTable tableName="people_passage">
-            <column name="id" type="int" autoIncrement="true">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="last_name" type="varchar(30)">
