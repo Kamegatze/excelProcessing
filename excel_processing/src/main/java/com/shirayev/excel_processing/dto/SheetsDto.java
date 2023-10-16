@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
-import static org.apache.commons.math3.fitting.leastsquares.LeastSquaresFactory.model;
 
 @Data
 @Builder
