@@ -6,7 +6,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table
@@ -24,6 +24,6 @@ public class Sheets extends Essence {
 
     @Column
     @OneToMany(mappedBy = "sheet")
-    private Set<PeoplePassage> peoplePassages;
+    private List<PeoplePassage> peoplePassages;
 
 }
