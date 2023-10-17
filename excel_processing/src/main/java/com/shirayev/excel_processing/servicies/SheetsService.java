@@ -25,7 +25,7 @@ public class SheetsService {
 
     public SheetsDto getSheetById(Long id) {
         return model.map(sheetsRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Листа с id: " + id + " не существует")
+                () -> new NoSuchElementException("Лист с id: " + id + " не был найден")
         ), SheetsDto.class);
     }
 }

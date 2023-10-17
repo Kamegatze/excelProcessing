@@ -1,17 +1,21 @@
 package com.shirayev.excel_processing.servicies;
 
+import com.shirayev.excel_processing.dto.PeoplePassageDto;
 import com.shirayev.excel_processing.dto.SheetsDto;
+import com.shirayev.excel_processing.entities.PeoplePassage;
 import com.shirayev.excel_processing.entities.Sheets;
 import com.shirayev.excel_processing.parser_of_excel.ExcelParser;
 import com.shirayev.excel_processing.repositories.PeoplePassageRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,6 +27,9 @@ public class PeoplePassageService {
     private final SheetsRepository sheetsRepository;
 
     private final PeoplePassageRepository peoplePassageRepository;
+
+    private final ModelMapper model;
+
     @Transactional
     public List<SheetsDto> writeFileInDatabase(InputStream inputStream, Boolean withATitle) throws IOException {
         List<SheetsDto> sheetsDtoList = excelParser.getSheets(inputStream, withATitle);
@@ -42,4 +49,17 @@ public class PeoplePassageService {
         return SheetsDto.getSheetsDto(sheets);
     }
 
+    public List<PeoplePassageDto> getPeoplePassagesBySheet(Long sheet_id) {
+        List <PeoplePassage> peoplePassages = sheetsRepository.findById(sheet_id)
+                .orElseThrow(() -> new NoSuchElementException("Лист с id: " + sheet_id + " не был найден"))
+                .getPeoplePassages();
+
+        return PeoplePassageDto.getPeoplePassageDto(peoplePassages);
+    }
+
+    public PeoplePassageDto getPeoplePassageById(Long id) {
+        return model.map(peoplePassageRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Запись с id " + id + " не была найдена")
+        ), PeoplePassageDto.class);
+    }
 }
