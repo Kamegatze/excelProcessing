@@ -9,7 +9,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Time;
@@ -48,7 +47,7 @@ public class ExcelParser {
             row = rowIterator.next();
 
 
-            Map<String, String> record = new LinkedHashMap<>();
+            Map<String, String> record = new HashMap<>();
 
             int index = 0;
 
@@ -57,23 +56,29 @@ public class ExcelParser {
 
                 Cell cell = cellIterator.next();
 
-                if(withATitle) {
-                    record.put(keys.get(index), cell.getStringCellValue());
-                } else {
-                    record.put(fields.get(index), cell.getStringCellValue());
+                if(!cell.getStringCellValue().isBlank() && !cell.getStringCellValue().isEmpty()) {
+
+                    if(withATitle) {
+                        record.put(keys.get(index), cell.getStringCellValue());
+                    } else {
+                        record.put(fields.get(index), cell.getStringCellValue());
+                    }
+
                 }
 
                 index++;
             }
 
-            records.add(record);
+            if(!record.isEmpty()) {
+                records.add(record);
+            }
 
         }
 
-        for (Map<String, String> item : records) {
-            System.out.println(item.get("age"));
-        }
 
+        /*
+        * Обработать случай когда поля будут пустыми
+        * */
         return records.stream().map(item ->
             PeoplePassageDto.builder()
                     .age(Integer.valueOf(item.get("age")))
