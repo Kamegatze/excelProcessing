@@ -14,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class PeoplePassageDto {
 
+    private Long id;
+
     private String last_name;
 
     private String first_name;

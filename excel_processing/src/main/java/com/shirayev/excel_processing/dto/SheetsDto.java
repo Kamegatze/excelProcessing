@@ -14,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class SheetsDto {
 
+    private Long id;
+
     private String title;
 
     private List<PeoplePassageDto> peoplePassages;
