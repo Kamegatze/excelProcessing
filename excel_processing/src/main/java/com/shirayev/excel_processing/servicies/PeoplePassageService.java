@@ -49,9 +49,9 @@ public class PeoplePassageService {
         return SheetsDto.getSheetsDto(sheets);
     }
 
-    public List<PeoplePassageDto> getPeoplePassagesBySheet(Long sheet_id) {
-        List <PeoplePassage> peoplePassages = sheetsRepository.findById(sheet_id)
-                .orElseThrow(() -> new NoSuchElementException("Лист с id: " + sheet_id + " не был найден"))
+    public List<PeoplePassageDto> getPeoplePassagesBySheet(Long sheetId) {
+        List <PeoplePassage> peoplePassages = sheetsRepository.findById(sheetId)
+                .orElseThrow(() -> new NoSuchElementException("Лист с id: " + sheetId + " не был найден"))
                 .getPeoplePassages();
 
         return PeoplePassageDto.getPeoplePassageDto(peoplePassages);
