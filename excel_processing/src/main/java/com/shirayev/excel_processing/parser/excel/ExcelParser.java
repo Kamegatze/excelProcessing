@@ -107,7 +107,7 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
         }
 
         if(countTitle >= 1 && countTitle < this.fields.size()) {
-            throw new TitleException("Заголовок не корректно заполнен");
+            throw new TitleException("Заголовок некорректно заполнен");
         }
 
         return countTitle == this.fields.size();
