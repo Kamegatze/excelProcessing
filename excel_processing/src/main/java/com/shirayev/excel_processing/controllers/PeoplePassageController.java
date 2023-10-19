@@ -1,6 +1,7 @@
 package com.shirayev.excel_processing.controllers;
 
 import com.shirayev.excel_processing.dto.PeoplePassageDto;
+import com.shirayev.excel_processing.dto.SheetsDto;
 import com.shirayev.excel_processing.servicies.PeoplePassageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +38,16 @@ public class PeoplePassageController {
     }
 
     @PostMapping("/write_file")
-    public ResponseEntity<Map<String, String>> handlerWriteFileInDatabase(@RequestParam MultipartFile file) {
+    public ResponseEntity<Map<String, Object>> handlerWriteFileInDatabase(@RequestParam MultipartFile file, @RequestParam Boolean withATitle) throws IOException {
 
-        System.out.println(file.getOriginalFilename());
+        InputStream stream = new ByteArrayInputStream(file.getBytes());
+
+        List<SheetsDto> sheets = peoplePassageService.writeFileInDatabase(stream, withATitle);
+
+        stream.close();
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(Map.of("response", "the file was recorded"));
+                .body(Map.of("response", "the file was recorded", "body", sheets));
     }
 }
