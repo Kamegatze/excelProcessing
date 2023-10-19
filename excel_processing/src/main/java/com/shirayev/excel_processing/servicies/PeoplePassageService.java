@@ -32,9 +32,7 @@ public class PeoplePassageService {
     private final ModelMapper model;
 
     @Transactional
-    public List<SheetsDto> writeFileInDatabase(InputStream inputStream, Boolean withATitle) throws IOException {
-
-        excelParser.setWithATitle(withATitle);
+    public List<SheetsDto> writeFileInDatabase(InputStream inputStream) throws IOException {
 
         List<SheetsDto> sheetsDtoList = excelParser.parse(inputStream);
 

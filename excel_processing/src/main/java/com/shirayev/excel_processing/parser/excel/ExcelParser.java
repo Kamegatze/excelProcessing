@@ -1,5 +1,6 @@
 package com.shirayev.excel_processing.parser.excel;
 
+import com.shirayev.excel_processing.custom_exception.TitleException;
 import com.shirayev.excel_processing.dto.PeoplePassageDto;
 import com.shirayev.excel_processing.dto.SheetsDto;
 import com.shirayev.excel_processing.parser.Parser;
@@ -25,16 +26,16 @@ import java.util.Map;
 public class ExcelParser implements Parser<List<SheetsDto>> {
 
 
-    private Boolean withATitle = false;
-
     private final List<String> fields = List.of("last_name", "first_name", "patronymic",
             "age", "actions", "time_action");
 
-    private List<PeoplePassageDto> getSheet(Sheet sheet, Boolean withATitle) {
+    private List<PeoplePassageDto> getSheet(Sheet sheet) throws TitleException {
 
         Iterator<Row> rowIterator = sheet.iterator();
         Row row;
         List<String> keys = new ArrayList<>();
+
+        Boolean withATitle = checkTitle(sheet);
 
         if(withATitle) {
 
@@ -89,7 +90,30 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
         ).toList();
     }
 
-    private List<SheetsDto> getSheets(InputStream inputStream, Boolean withATitle) throws IOException {
+    private Boolean checkTitle(Sheet sheet) throws TitleException {
+
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        Row row = rowIterator.next();
+        int countTitle = 0;
+
+        for(Iterator<Cell> cellIterator = row.cellIterator();
+            cellIterator.hasNext();) {
+
+            Cell cell = cellIterator.next();
+            if(this.fields.contains(cell.getStringCellValue())) {
+                countTitle++;
+            }
+
+        }
+
+        if(countTitle >= 1 && countTitle < this.fields.size()) {
+            throw new TitleException("Заголовок не корректно заполнен");
+        }
+
+        return countTitle == this.fields.size();
+    }
+
+    private List<SheetsDto> getSheets(InputStream inputStream) throws IOException, TitleException {
 
         Workbook book = new HSSFWorkbook(inputStream);
         List<SheetsDto> sheetsDtoList = new ArrayList<>();
@@ -100,7 +124,7 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
             sheetsDtoList.add(
                     SheetsDto.builder()
                     .title(sheet.getSheetName())
-                    .peoplePassages(this.getSheet(sheet, withATitle))
+                    .peoplePassages(this.getSheet(sheet))
                     .build()
             );
         }
@@ -110,6 +134,6 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
 
     @Override
     public List<SheetsDto> parse(InputStream inputStream) throws IOException {
-        return this.getSheets(inputStream, this.withATitle);
+        return this.getSheets(inputStream);
     }
 }
