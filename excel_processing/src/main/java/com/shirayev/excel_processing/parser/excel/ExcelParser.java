@@ -1,7 +1,9 @@
-package com.shirayev.excel_processing.parser_of_excel;
+package com.shirayev.excel_processing.parser.excel;
 
 import com.shirayev.excel_processing.dto.PeoplePassageDto;
 import com.shirayev.excel_processing.dto.SheetsDto;
+import com.shirayev.excel_processing.parser.Parser;
+import lombok.Data;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,67 +20,59 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+@Data
 @Component
-public class ExcelParser {
+public class ExcelParser implements Parser<List<SheetsDto>> {
+
+
+    private Boolean withATitle = false;
 
     private final List<String> fields = List.of("last_name", "first_name", "patronymic",
             "age", "actions", "time_action");
 
     private List<PeoplePassageDto> getSheet(Sheet sheet, Boolean withATitle) {
+
         Iterator<Row> rowIterator = sheet.iterator();
-
         Row row;
-
         List<String> keys = new ArrayList<>();
 
         if(withATitle) {
 
             row = rowIterator.next();
-
             for (Iterator<Cell> cellIterator = row.cellIterator();
                  cellIterator.hasNext();) {
 
                 Cell cell = cellIterator.next();
-
                 keys.add(cell.getStringCellValue());
 
             }
         }
 
         List<Map<String, String>> records = new ArrayList<>();
-
         while (rowIterator.hasNext()) {
+
             row = rowIterator.next();
-
-
             Map<String, String> record = new HashMap<>();
-
             int index = 0;
 
             for(Iterator<Cell> cellIterator = row.cellIterator();
                 cellIterator.hasNext();) {
 
                 Cell cell = cellIterator.next();
-
                 if(!cell.getStringCellValue().isBlank() && !cell.getStringCellValue().isEmpty()) {
-
                     if(withATitle) {
                         record.put(keys.get(index), cell.getStringCellValue());
                     } else {
                         record.put(fields.get(index), cell.getStringCellValue());
                     }
-
                 }
-
                 index++;
             }
 
             if(!record.isEmpty()) {
                 records.add(record);
             }
-
         }
-
 
         /*
         * Обработать случай когда поля будут пустыми
@@ -95,15 +89,14 @@ public class ExcelParser {
         ).toList();
     }
 
-    public List<SheetsDto> getSheets(InputStream inputStream, Boolean withATitle) throws IOException {
-        Workbook book = new HSSFWorkbook(inputStream);
+    private List<SheetsDto> getSheets(InputStream inputStream, Boolean withATitle) throws IOException {
 
+        Workbook book = new HSSFWorkbook(inputStream);
         List<SheetsDto> sheetsDtoList = new ArrayList<>();
 
         for(Iterator<Sheet> sheetIterator = book.sheetIterator();
             sheetIterator.hasNext();) {
             Sheet sheet = sheetIterator.next();
-
             sheetsDtoList.add(
                     SheetsDto.builder()
                     .title(sheet.getSheetName())
@@ -115,4 +108,8 @@ public class ExcelParser {
         return sheetsDtoList;
     }
 
+    @Override
+    public List<SheetsDto> parse(InputStream inputStream) throws IOException {
+        return this.getSheets(inputStream, this.withATitle);
+    }
 }
