@@ -1,10 +1,18 @@
 package com.shirayev.excel_processing.dto;
 
 import com.shirayev.excel_processing.entities.Sheets;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SheetsResponse {
 
     private Long id;
