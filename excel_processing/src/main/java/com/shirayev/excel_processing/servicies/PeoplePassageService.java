@@ -4,7 +4,8 @@ import com.shirayev.excel_processing.dto.PeoplePassageDto;
 import com.shirayev.excel_processing.dto.SheetsDto;
 import com.shirayev.excel_processing.entities.PeoplePassage;
 import com.shirayev.excel_processing.entities.Sheets;
-import com.shirayev.excel_processing.parser_of_excel.ExcelParser;
+import com.shirayev.excel_processing.parser.Parser;
+import com.shirayev.excel_processing.parser.excel.ExcelParser;
 import com.shirayev.excel_processing.repositories.PeoplePassageRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,9 @@ public class PeoplePassageService {
     private final ModelMapper model;
 
     @Transactional
-    public List<SheetsDto> writeFileInDatabase(InputStream inputStream, Boolean withATitle) throws IOException {
-        List<SheetsDto> sheetsDtoList = excelParser.getSheets(inputStream, withATitle);
+    public List<SheetsDto> writeFileInDatabase(InputStream inputStream) throws IOException {
+
+        List<SheetsDto> sheetsDtoList = excelParser.parse(inputStream);
 
         List<Sheets> sheets = SheetsDto.getSheetsEntity(sheetsDtoList);
 

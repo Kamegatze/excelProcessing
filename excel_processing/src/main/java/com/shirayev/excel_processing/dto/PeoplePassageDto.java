@@ -1,7 +1,11 @@
 package com.shirayev.excel_processing.dto;
 
 import com.shirayev.excel_processing.entities.PeoplePassage;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 
 import java.sql.Time;

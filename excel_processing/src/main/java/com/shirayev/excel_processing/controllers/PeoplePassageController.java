@@ -38,11 +38,11 @@ public class PeoplePassageController {
     }
 
     @PostMapping("/write_file")
-    public ResponseEntity<Map<String, Object>> handlerWriteFileInDatabase(@RequestParam MultipartFile file, @RequestParam Boolean withATitle) throws IOException {
+    public ResponseEntity<Map<String, Object>> handlerWriteFileInDatabase(@RequestParam MultipartFile file) throws IOException {
 
         InputStream stream = new ByteArrayInputStream(file.getBytes());
 
-        List<SheetsDto> sheets = peoplePassageService.writeFileInDatabase(stream, withATitle);
+        List<SheetsDto> sheets = peoplePassageService.writeFileInDatabase(stream);
 
         stream.close();
 
