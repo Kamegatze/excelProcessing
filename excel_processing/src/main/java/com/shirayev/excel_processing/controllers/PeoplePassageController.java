@@ -46,7 +46,7 @@ public class PeoplePassageController {
 
         stream.close();
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of("response", "the file was recorded", "body", sheets));
     }
