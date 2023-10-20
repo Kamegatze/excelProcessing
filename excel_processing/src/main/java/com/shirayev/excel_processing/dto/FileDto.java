@@ -19,8 +19,6 @@ public class FileDto {
 
     private String name;
 
-    private List<SheetsDto> sheets;
-
     private static ModelMapper model = new ModelMapper();
 
     public static List<FileDto> getFileDto(List<File> files) {
