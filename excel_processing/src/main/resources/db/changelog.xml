@@ -6,4 +6,6 @@
     <include file="changelog/2023-10-12-create-table-people-passage.xml" relativeToChangelogFile="true"/>
     <include file="changelog/2023-10-16-create-table-sheets.xml" relativeToChangelogFile="true"/>
     <include file="changelog/2023-10-16-add-foreign-key-in-people_passage.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023-10-20-create-table-file.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/2023-10-20-add-foreign-key-in-sheets.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
