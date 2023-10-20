@@ -12,13 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional(readOnly = true)
@@ -65,6 +63,16 @@ public class FileService {
         });
 
         return model.map(file, FileDto.class);
+    }
+
+    public FileDto getFileById(Long id) {
+        return model.map(fileRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Файл с id: " + id + " не был найден")),
+                FileDto.class);
+    }
+
+    public List<FileDto> getFiles() {
+        return FileDto.getFileDto(fileRepository.findAll());
     }
 
 }

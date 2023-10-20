@@ -1,6 +1,8 @@
 package com.shirayev.excel_processing.servicies;
 
-import com.shirayev.excel_processing.dto.SheetsDto;
+import com.shirayev.excel_processing.dto.SheetsResponse;
+import com.shirayev.excel_processing.entities.Sheets;
+import com.shirayev.excel_processing.repositories.FileRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,13 +21,23 @@ public class SheetsService {
 
     private final ModelMapper model;
 
-    public List<SheetsDto> getSheets() {
-        return SheetsDto.getSheetsDto(sheetsRepository.findAll());
+    private final FileRepository fileRepository;
+
+    public List<SheetsResponse> getSheets() {
+        return SheetsResponse.getSheetsResponse(sheetsRepository.findAll());
     }
 
-    public SheetsDto getSheetById(Long id) {
+    public SheetsResponse getSheetById(Long id) {
         return model.map(sheetsRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Лист с id: " + id + " не был найден")
-        ), SheetsDto.class);
+        ), SheetsResponse.class);
+    }
+
+    public List<SheetsResponse> getSheetsByFileId(Long fileId) {
+        List<Sheets> sheets = fileRepository.findById(fileId)
+                .orElseThrow(() -> new NoSuchElementException("Файл с id: " + fileId + " не был найден"))
+                .getSheets();
+
+        return SheetsResponse.getSheetsResponse(sheets);
     }
 }
