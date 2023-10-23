@@ -29,7 +29,7 @@ public class FileController {
 
         InputStream stream = new ByteArrayInputStream(file.getBytes());
 
-        FileDto fileDto = fileService.writeFileInDatabase(stream, file.getName());
+        FileDto fileDto = fileService.writeFileInDatabase(stream, file.getOriginalFilename());
 
         stream.close();
 
