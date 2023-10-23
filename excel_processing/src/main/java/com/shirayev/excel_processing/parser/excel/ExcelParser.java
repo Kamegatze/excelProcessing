@@ -80,12 +80,7 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
             }
         }
 
-        /*
-        * Обработать случай когда поля будут пустыми
-        * */
-
         List<PeoplePassageDto> result = new ArrayList<>();
-
         for(Map<String, String> record : records) {
             result.add(checkEmptyValueInRecord(record));
         }
