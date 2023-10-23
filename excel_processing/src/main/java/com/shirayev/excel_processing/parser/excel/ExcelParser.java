@@ -17,11 +17,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 @Component
@@ -87,14 +83,15 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
     }
 
     private PeoplePassageDto checkEmptyValueInRecord(Map<String, String> record) throws EmptyValueInRecordException {
-        boolean isRecordValid = !(record.get("age").isEmpty() || record.get("age").isBlank())
-                && !(record.get("actions").isBlank() || record.get("actions").isEmpty())
-                && !(record.get("time_action").isBlank() || record.get("time_action").isEmpty())
-                && !(record.get("last_name").isBlank() || record.get("last_name").isEmpty())
-                && !(record.get("first_name").isBlank() || record.get("first_name").isEmpty());
+        Set<String> keys = record.keySet();
+        boolean isRecordValid = keys.contains("age")
+                && keys.contains("actions")
+                && keys.contains("time_action")
+                && keys.contains("last_name")
+                && keys.contains("first_name");
 
         if (!isRecordValid) {
-            throw new EmptyValueInRecordException("Проверьте ваши записи на пустые значения. Поля: age, actions, time_actions, last_name, first_name, " +
+            throw new EmptyValueInRecordException("Проверьте ваши записи на пустые значения. Поля: age, actions, time_action, last_name, first_name, " +
                     "обязательны к заполнению");
         }
 
