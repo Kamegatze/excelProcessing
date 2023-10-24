@@ -8,6 +8,7 @@ import com.shirayev.excel_processing.parser.Parser;
 import lombok.Data;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -59,11 +60,14 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
                 cellIterator.hasNext();) {
 
                 Cell cell = cellIterator.next();
-                if(!cell.getStringCellValue().isBlank() && !cell.getStringCellValue().isEmpty()) {
+                DataFormatter formatter = new DataFormatter();
+                String valueCell = formatter.formatCellValue(cell);
+
+                if(!valueCell.isBlank() && !valueCell.isEmpty()) {
                     if(withATitle) {
-                        record.put(keys.get(index), cell.getStringCellValue());
+                        record.put(keys.get(index), valueCell);
                     } else {
-                        record.put(fields.get(index), cell.getStringCellValue());
+                        record.put(fields.get(index), valueCell);
                     }
                 }
                 index++;
