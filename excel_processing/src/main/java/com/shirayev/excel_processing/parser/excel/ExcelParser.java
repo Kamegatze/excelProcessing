@@ -9,6 +9,7 @@ import lombok.Data;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -29,7 +30,7 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
     private final List<String> fields = List.of("last_name", "first_name", "patronymic",
             "age", "actions", "time_action");
 
-    private List<PeoplePassageDto> getSheet(Sheet sheet) throws TitleException, EmptyValueInRecordException {
+    private List<PeoplePassageDto> getSheet(Sheet sheet, FormulaEvaluator evaluator) throws TitleException, EmptyValueInRecordException {
 
         Iterator<Row> rowIterator = sheet.iterator();
         Row row;
@@ -61,7 +62,7 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
 
                 Cell cell = cellIterator.next();
                 DataFormatter formatter = new DataFormatter();
-                String valueCell = formatter.formatCellValue(cell);
+                String valueCell = formatter.formatCellValue(cell, evaluator);
 
                 if(!valueCell.isBlank() && !valueCell.isEmpty()) {
                     if(withATitle) {
@@ -135,6 +136,7 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
     private List<SheetsDto> getSheets(InputStream inputStream) throws IOException, TitleException {
 
         Workbook book = new HSSFWorkbook(inputStream);
+        FormulaEvaluator evaluator = book.getCreationHelper().createFormulaEvaluator();
         List<SheetsDto> sheetsDtoList = new ArrayList<>();
 
         for(Iterator<Sheet> sheetIterator = book.sheetIterator();
@@ -143,7 +145,7 @@ public class ExcelParser implements Parser<List<SheetsDto>> {
             sheetsDtoList.add(
                     SheetsDto.builder()
                     .title(sheet.getSheetName())
-                    .peoplePassages(this.getSheet(sheet))
+                    .peoplePassages(this.getSheet(sheet, evaluator))
                     .build()
             );
         }
