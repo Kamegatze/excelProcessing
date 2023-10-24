@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -36,9 +37,12 @@ public class FileService {
     private final ModelMapper model;
     @Transactional
     public FileDto writeFileInDatabase(MultipartFile multipartFile) throws IOException {
-        InputStream inputStream = new ByteArrayInputStream(multipartFile.getBytes());
-        List<SheetsDto> sheetsDtoList = excelParser.parse(inputStream);
-        inputStream.close();
+
+        List<SheetsDto> sheetsDtoList;
+
+        try(InputStream inputStream = new ByteArrayInputStream(multipartFile.getBytes())) {
+            sheetsDtoList = excelParser.parse(inputStream);
+        }
 
         List<Sheets> sheets = SheetsDto.getSheetsEntity(sheetsDtoList);
 
