@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -33,14 +35,15 @@ public class FileService {
 
     private final ModelMapper model;
     @Transactional
-    public FileDto writeFileInDatabase(InputStream inputStream, String name) throws IOException {
+    public FileDto writeFileInDatabase(MultipartFile multipartFile) throws IOException {
+        InputStream inputStream = new ByteArrayInputStream(multipartFile.getBytes());
         List<SheetsDto> sheetsDtoList = excelParser.parse(inputStream);
+        inputStream.close();
 
         List<Sheets> sheets = SheetsDto.getSheetsEntity(sheetsDtoList);
 
-
         File file = File.builder()
-                .name(name)
+                .name(multipartFile.getOriginalFilename())
                 .sheets(sheets)
                 .build();
 
