@@ -47,7 +47,9 @@ public class SheetsService {
     }
 
     public PageDto<SheetsResponse> getSheetsByFileId(Long fileId, PageRequestDto pageRequestDto) {
-        Page<Sheets> page = sheetsRepository.findByFileId(fileId, PageRequestDto.getPageRequest(pageRequestDto));
+        Page<Sheets> page = sheetsRepository
+                .findByFileId(fileId, PageRequestDto.getPageRequest(pageRequestDto))
+                .orElseThrow(() -> new NoSuchElementException("Листы с file_id: " + fileId + "не были найдены"));
         return PageDto.<SheetsResponse>builder()
                 .content(SheetsResponse.getSheetsResponse(page.getContent()))
                 .countPage(page.getTotalPages())
