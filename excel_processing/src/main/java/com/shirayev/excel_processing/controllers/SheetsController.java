@@ -1,6 +1,8 @@
 package com.shirayev.excel_processing.controllers;
 
 import com.shirayev.excel_processing.dto.SheetsResponse;
+import com.shirayev.excel_processing.dto.page.PageDto;
+import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.servicies.SheetsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,10 @@ public class SheetsController {
     private final SheetsService sheetsService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<SheetsResponse>> handlerGetSheets() {
+    public ResponseEntity<PageDto<SheetsResponse>> handlerGetSheets(PageRequestDto pageRequestDto) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(sheetsService.getSheets());
+                .body(sheetsService.getSheets(pageRequestDto));
     }
 
 
@@ -36,9 +38,9 @@ public class SheetsController {
     }
 
     @GetMapping("/byFile/{fileId}")
-    public ResponseEntity<List<SheetsResponse>> handlerGetSheetsByFileId(@PathVariable Long fileId) {
+    public ResponseEntity<PageDto<SheetsResponse>> handlerGetSheetsByFileId(@PathVariable Long fileId, PageRequestDto pageRequestDto) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(sheetsService.getSheetsByFileId(fileId));
+                .body(sheetsService.getSheetsByFileId(fileId, pageRequestDto));
     }
 }
