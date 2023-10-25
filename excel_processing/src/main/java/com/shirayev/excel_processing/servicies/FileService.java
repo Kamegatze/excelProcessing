@@ -2,6 +2,8 @@ package com.shirayev.excel_processing.servicies;
 
 import com.shirayev.excel_processing.dto.FileDto;
 import com.shirayev.excel_processing.dto.SheetsDto;
+import com.shirayev.excel_processing.dto.page.PageDto;
+import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.entities.File;
 import com.shirayev.excel_processing.entities.Sheets;
 import com.shirayev.excel_processing.parser.Parser;
@@ -10,6 +12,7 @@ import com.shirayev.excel_processing.repositories.PeoplePassageRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -78,8 +80,18 @@ public class FileService {
                 FileDto.class);
     }
 
-    public List<FileDto> getFiles() {
-        return FileDto.getFileDto(fileRepository.findAll());
+    public PageDto<FileDto> getFiles(PageRequestDto pageRequestDto) {
+
+        Page<File> pageFile = fileRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
+
+        return PageDto.<FileDto>builder()
+                .content(FileDto.getFileDto(pageFile.getContent()))
+                .countPage(pageFile.getTotalPages())
+                .countElements(pageFile.getTotalElements())
+                .currentPage(pageRequestDto.getPageNumber())
+                .countElementsInPage(pageRequestDto.getPageSize())
+                .build();
+
     }
 
 }

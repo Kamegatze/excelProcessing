@@ -2,8 +2,13 @@ package com.shirayev.excel_processing.controllers;
 
 
 import com.shirayev.excel_processing.dto.FileDto;
+import com.shirayev.excel_processing.dto.page.PageDto;
+import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.servicies.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.AbstractPageRequest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +47,9 @@ public class FileController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<FileDto>> handlerGetFiles() {
+    public ResponseEntity<PageDto<FileDto>> handlerGetFiles(PageRequestDto pageRequestDto) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(fileService.getFiles());
+                .body(fileService.getFiles(pageRequestDto));
     }
 }
