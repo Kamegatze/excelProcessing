@@ -15,9 +15,9 @@ public class PageRequestDto {
 
     private final Sort sort = Sort.unsorted();
 
-    private Integer pageNumber;
+    private Integer pageNumber = 0;
 
-    private Integer pageSize;
+    private Integer pageSize = 20;
 
     public static PageRequest getPageRequest(PageRequestDto pageRequestDto) {
         return PageRequest.of(pageRequestDto.getPageNumber(), pageRequestDto.getPageSize(), pageRequestDto.getSort());
