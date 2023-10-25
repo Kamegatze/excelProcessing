@@ -26,8 +26,6 @@ public class SheetsService {
 
     private final ModelMapper model;
 
-    private final FileRepository fileRepository;
-
     public PageDto<SheetsResponse> getSheets(PageRequestDto pageRequestDto) {
         Page<Sheets> page = sheetsRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
 

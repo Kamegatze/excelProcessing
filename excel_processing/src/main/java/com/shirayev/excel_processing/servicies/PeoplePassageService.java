@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class PeoplePassageService {
 
-    private final SheetsRepository sheetsRepository;
-
     private final PeoplePassageRepository peoplePassageRepository;
 
     private final ModelMapper model;
