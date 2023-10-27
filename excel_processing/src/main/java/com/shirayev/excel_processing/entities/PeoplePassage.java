@@ -1,8 +1,6 @@
 package com.shirayev.excel_processing.entities;
 
 
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -27,7 +25,7 @@ import java.sql.Time;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class PeoplePassage extends Essence{
+public class PeoplePassage extends Essence {
     
     @Column
     private String last_name;
