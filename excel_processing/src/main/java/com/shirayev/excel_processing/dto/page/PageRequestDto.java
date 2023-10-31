@@ -13,7 +13,7 @@ import org.springframework.data.domain.Sort;
 @AllArgsConstructor
 public class PageRequestDto {
 
-    private final Sort sort = Sort.unsorted();
+    private final Sort sort = Sort.by("id").descending();
 
     private Integer pageNumber = 0;
 

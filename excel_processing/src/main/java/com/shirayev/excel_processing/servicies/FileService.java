@@ -1,6 +1,7 @@
 package com.shirayev.excel_processing.servicies;
 
 import com.shirayev.excel_processing.dto.FileDto;
+import com.shirayev.excel_processing.dto.FileNesting;
 import com.shirayev.excel_processing.dto.SheetsDto;
 import com.shirayev.excel_processing.dto.page.PageDto;
 import com.shirayev.excel_processing.dto.page.PageRequestDto;
@@ -86,6 +87,20 @@ public class FileService {
 
         return PageDto.<FileDto>builder()
                 .content(FileDto.getFileDto(pageFile.getContent()))
+                .countPage(pageFile.getTotalPages())
+                .countElements(pageFile.getTotalElements())
+                .currentPage(pageRequestDto.getPageNumber())
+                .countElementsInPage(pageRequestDto.getPageSize())
+                .build();
+
+    }
+
+    public PageDto<FileNesting> getFilesNesting(PageRequestDto pageRequestDto) {
+
+        Page<File> pageFile = fileRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
+
+        return PageDto.<FileNesting>builder()
+                .content(FileNesting.getFileNesting(pageFile.getContent()))
                 .countPage(pageFile.getTotalPages())
                 .countElements(pageFile.getTotalElements())
                 .currentPage(pageRequestDto.getPageNumber())

@@ -2,6 +2,7 @@ package com.shirayev.excel_processing.controllers;
 
 
 import com.shirayev.excel_processing.dto.FileDto;
+import com.shirayev.excel_processing.dto.FileNesting;
 import com.shirayev.excel_processing.dto.page.PageDto;
 import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.servicies.FileService;
@@ -45,5 +46,12 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fileService.getFiles(pageRequestDto));
+    }
+
+    @GetMapping("/all/nesting")
+    public ResponseEntity<PageDto<FileNesting>> handlerGetFilesNesting(PageRequestDto pageRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(fileService.getFilesNesting(pageRequestDto));
     }
 }
