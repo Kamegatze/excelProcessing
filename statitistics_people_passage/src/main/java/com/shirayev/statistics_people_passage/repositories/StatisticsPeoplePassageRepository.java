@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.sql.Time;
 import java.util.List;
 
-public interface StatisticsPeoplePassageRepository extends JpaRepository<Long, StatisticsPeoplePassage> {
+public interface StatisticsPeoplePassageRepository extends JpaRepository<StatisticsPeoplePassage, Long> {
 
     Page<StatisticsPeoplePassage> findAllByTimeActionBetween(Time start, Time end, Pageable pageable);
 
