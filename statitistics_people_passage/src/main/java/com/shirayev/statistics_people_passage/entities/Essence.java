@@ -17,7 +17,6 @@ public abstract class Essence {
 
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 }
