@@ -18,14 +18,12 @@ public class FileService {
     private final FileRepository fileRepository;
 
     @Transactional
-    public PageDto<FileDto> updateAndInsertOfData(PageDto<FileDto> fileDtoPageDto) {
-        List<File> files = FileDto.getFileEntity(fileDtoPageDto.getContent());
+    public List<FileDto> updateAndInsertOfData(List<FileDto> fileDtoList) {
+        List<File> files = FileDto.getFileEntity(fileDtoList);
 
-        files = fileRepository.saveAll(files);
+        files = fileRepository.saveAllAndFlush(files);
 
-        fileDtoPageDto.setContent(FileDto.getFileDto(files));
-
-        return fileDtoPageDto;
+        return FileDto.getFileDto(files);
     }
 
 }
