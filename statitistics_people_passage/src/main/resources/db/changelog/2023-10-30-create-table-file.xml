@@ -6,7 +6,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="2023-10-30-create-table-file" author="shirayev">
         <createTable tableName="file">
-            <column name="id" autoIncrement="true" type="bigint">
+            <column name="id" autoIncrement="false" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="text">
