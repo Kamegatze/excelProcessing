@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.Time;
 import java.util.List;
@@ -26,11 +25,10 @@ public class StatisticsController {
 
     @GetMapping("")
     public ResponseEntity<List<AvgAgeGroupByActionStatisticsPeoplePassage>> handlerAvgAgeByAction(@RequestParam Time start, @RequestParam Time end,
-                                                                                                  PageRequestDto pageRequestDto,
-                                                                                                  UriComponentsBuilder uri) {
+                                                                                                  PageRequestDto pageRequestDto) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(statisticsService.handlerGetStatisticsByActionAndAge(start, end, pageRequestDto, uri));
+                .body(statisticsService.handlerGetStatisticsByActionAndAge(start, end, pageRequestDto));
     }
 
 }
