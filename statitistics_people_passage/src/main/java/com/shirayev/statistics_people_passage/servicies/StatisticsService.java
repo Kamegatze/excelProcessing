@@ -1,5 +1,7 @@
 package com.shirayev.statistics_people_passage.servicies;
 
+import com.shirayev.statistics_people_passage.client_micro_service.ClientMicroService;
+import com.shirayev.statistics_people_passage.client_micro_service.uri.URIBuilder;
 import com.shirayev.statistics_people_passage.dto.FileDto;
 import com.shirayev.statistics_people_passage.dto.FileNesting;
 import com.shirayev.statistics_people_passage.dto.SheetsNesting;
@@ -10,17 +12,11 @@ import com.shirayev.statistics_people_passage.entities.Sheets;
 import com.shirayev.statistics_people_passage.model.AvgAgeGroupByActionStatisticsPeoplePassage;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.sql.Time;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -34,35 +30,21 @@ public class StatisticsService {
 
     private final StatisticsPeoplePassageService statisticsPeoplePassageService;
 
-    private final RestTemplate restTemplate;
-
     private final ModelMapper model;
 
-    private final String protocol = "http";
+    private final URIBuilder uriExcelProcessing;
 
-    private final  String port = "8080";
-
-    private final String host = "localhost";
-
-    private final String path = "api/file";
+    private final ClientMicroService<PageDto<FileNesting>> excelProcessingClient;
 
     @Transactional
-    public List<AvgAgeGroupByActionStatisticsPeoplePassage> handlerGetStatisticsByActionAndAge(Time start, Time end, PageRequestDto pageRequestDto,
-                                                                                               UriComponentsBuilder uri) {
+    public List<AvgAgeGroupByActionStatisticsPeoplePassage> handlerGetStatisticsByActionAndAge(Time start, Time end, PageRequestDto pageRequestDto) {
         /*
          * Формирование url и получение данных из api
-         * TODO Вынос в отдельную прослойку
+         * Todo Подумать как синхронизировать данные между МС
          * */
-        URI uriLine = uri.scheme(protocol).host(host).port(port).path(path + "/all/nesting")
-                .query("pageNumber={pageNumber}&pageSize={pageSize}")
-                .build(Map.of("pageNumber", pageRequestDto.getPageNumber(),
-                        "pageSize", pageRequestDto.getPageSize()));
-
-        PageDto<FileNesting> loadPage = restTemplate.exchange(uriLine,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<PageDto<FileNesting>>(){}).getBody();
-
+        PageDto<FileNesting> loadPage = excelProcessingClient.getData(
+                uriExcelProcessing.createURI("/all/nesting", pageRequestDto)
+        );
 
         /*
         * Сохранение данных
