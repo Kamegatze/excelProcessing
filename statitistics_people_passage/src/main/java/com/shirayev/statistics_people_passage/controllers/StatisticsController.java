@@ -2,7 +2,7 @@ package com.shirayev.statistics_people_passage.controllers;
 
 
 import com.shirayev.statistics_people_passage.dto.page.PageRequestDto;
-import com.shirayev.statistics_people_passage.model.AvgAgeGroupByActionStatisticsPeoplePassage;
+import com.shirayev.statistics_people_passage.model.CountPeoplePassageByAction;
 import com.shirayev.statistics_people_passage.servicies.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,8 @@ public class StatisticsController {
     private final StatisticsService statisticsService;
 
     @GetMapping("")
-    public ResponseEntity<List<AvgAgeGroupByActionStatisticsPeoplePassage>> handlerAvgAgeByAction(@RequestParam Time start, @RequestParam Time end,
-                                                                                                  PageRequestDto pageRequestDto) {
+    public ResponseEntity<List<CountPeoplePassageByAction>> handlerAvgAgeByAction(@RequestParam Time start, @RequestParam Time end,
+                                                                                  PageRequestDto pageRequestDto) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(statisticsService.handlerGetStatisticsByActionAndAge(start, end, pageRequestDto));

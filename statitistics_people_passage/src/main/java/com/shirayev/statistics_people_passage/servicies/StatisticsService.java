@@ -9,7 +9,7 @@ import com.shirayev.statistics_people_passage.dto.page.PageDto;
 import com.shirayev.statistics_people_passage.dto.page.PageRequestDto;
 import com.shirayev.statistics_people_passage.entities.File;
 import com.shirayev.statistics_people_passage.entities.Sheets;
-import com.shirayev.statistics_people_passage.model.AvgAgeGroupByActionStatisticsPeoplePassage;
+import com.shirayev.statistics_people_passage.model.CountPeoplePassageByAction;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class StatisticsService {
     private final ClientMicroService<PageDto<FileNesting>> excelProcessingClient;
 
     @Transactional
-    public List<AvgAgeGroupByActionStatisticsPeoplePassage> handlerGetStatisticsByActionAndAge(Time start, Time end, PageRequestDto pageRequestDto) {
+    public List<CountPeoplePassageByAction> handlerGetStatisticsByActionAndAge(Time start, Time end, PageRequestDto pageRequestDto) {
         /*
          * Формирование url и получение данных из api
          * Todo Подумать как синхронизировать данные между МС

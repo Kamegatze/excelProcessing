@@ -4,7 +4,7 @@ import com.shirayev.statistics_people_passage.dto.StatisticsPeoplePassageDto;
 import com.shirayev.statistics_people_passage.dto.page.PageRequestDto;
 import com.shirayev.statistics_people_passage.entities.Sheets;
 import com.shirayev.statistics_people_passage.entities.StatisticsPeoplePassage;
-import com.shirayev.statistics_people_passage.model.AvgAgeGroupByActionStatisticsPeoplePassage;
+import com.shirayev.statistics_people_passage.model.CountPeoplePassageByAction;
 import com.shirayev.statistics_people_passage.repositories.StatisticsPeoplePassageRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -40,36 +40,35 @@ public class StatisticsPeoplePassageService {
         return StatisticsPeoplePassageDto.getStatisticsPeoplePassageDto(statisticsPeoplePassages);
     }
 
-    public List<AvgAgeGroupByActionStatisticsPeoplePassage> getStatisticsByActionAndAge(PageRequestDto pageRequestDto, Time start, Time end) {
+    public List<CountPeoplePassageByAction> getStatisticsByActionAndAge(PageRequestDto pageRequestDto, Time start, Time end) {
         Page<StatisticsPeoplePassage> pageStatisticsPeoplePassage = statisticsPeoplePassageRepository.findAllByTimeActionBetween(start, end,
                 PageRequestDto.getPageRequest(pageRequestDto));
 
         List<StatisticsPeoplePassage> statisticsPeoplePassages = pageStatisticsPeoplePassage.getContent();
 
         /*
-        * Нахождение среднего возраста по действию
+        * Нахождение количество прошедших людей по действию
         * */
-        Map<String, Double> statistics = statisticsPeoplePassages.stream().collect(
+        Map<String, Long> statistics = statisticsPeoplePassages.stream().collect(
                 Collectors.groupingBy(
                         StatisticsPeoplePassage::getAction,
-                        Collectors.averagingInt(StatisticsPeoplePassage::getAge
-                        )
+                        Collectors.counting()
                 )
         );
         /*
-        * Формирование отсвета метода
+        * Формирование ответа метода
         * */
-        List<AvgAgeGroupByActionStatisticsPeoplePassage> avgAgeGroupByActionStatisticsPeoplePassages = new ArrayList<>();
+        List<CountPeoplePassageByAction> countPeoplePassageByActions = new ArrayList<>();
 
         statistics.forEach((key, value) -> {
-            avgAgeGroupByActionStatisticsPeoplePassages.add(AvgAgeGroupByActionStatisticsPeoplePassage.builder()
+            countPeoplePassageByActions.add(CountPeoplePassageByAction.builder()
                     .actions(key)
-                    .age(value)
+                    .count(value)
                     .build()
             );
         });
 
-        return avgAgeGroupByActionStatisticsPeoplePassages;
+        return countPeoplePassageByActions;
     }
 
 }
