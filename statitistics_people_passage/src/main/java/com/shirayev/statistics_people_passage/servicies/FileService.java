@@ -1,7 +1,6 @@
 package com.shirayev.statistics_people_passage.servicies;
 
 import com.shirayev.statistics_people_passage.dto.FileDto;
-import com.shirayev.statistics_people_passage.dto.page.PageDto;
 import com.shirayev.statistics_people_passage.entities.File;
 import com.shirayev.statistics_people_passage.repositories.FileRepository;
 import lombok.RequiredArgsConstructor;
