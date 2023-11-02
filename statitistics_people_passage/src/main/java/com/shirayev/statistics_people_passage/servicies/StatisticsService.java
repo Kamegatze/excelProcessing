@@ -51,6 +51,7 @@ public class StatisticsService {
                                                                                                UriComponentsBuilder uri) {
         /*
          * Формирование url и получение данных из api
+         * TODO Вынос в отдельную прослойку
          * */
         URI uriLine = uri.scheme(protocol).host(host).port(port).path(path + "/all/nesting")
                 .query("pageNumber={pageNumber}&pageSize={pageSize}")
