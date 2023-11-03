@@ -33,10 +33,10 @@ public class URIBuilderStatistics implements URIBuilder {
 
     @PostConstruct
     private void init() {
-        protocol = configURIMicroService.getExcelProcessing().get("protocol");
-        port = configURIMicroService.getExcelProcessing().get("port");
-        host = configURIMicroService.getExcelProcessing().get("host");
-        path = configURIMicroService.getExcelProcessing().get("path");
+        protocol = configURIMicroService.getStatistics().get("protocol");
+        port = configURIMicroService.getStatistics().get("port");
+        host = configURIMicroService.getStatistics().get("host");
+        path = configURIMicroService.getStatistics().get("path");
     }
 
     @Override
