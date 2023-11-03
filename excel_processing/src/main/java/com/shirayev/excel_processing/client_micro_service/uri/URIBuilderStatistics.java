@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,9 +28,15 @@ public class URIBuilderStatistics implements URIBuilder {
 
     private String path;
 
-    private final UriComponentsBuilder uri;
+    private UriComponentsBuilder uri;
 
     private final ConfigURIMicroService configURIMicroService;
+
+    private final ApplicationContext applicationContext;
+
+    private UriComponentsBuilder createUriComponentBuilder() {
+        return this.applicationContext.getBean(UriComponentsBuilder.class);
+    }
 
     @PostConstruct
     private void init() {
@@ -41,6 +48,8 @@ public class URIBuilderStatistics implements URIBuilder {
 
     @Override
     public URI createURI(String path, PageRequestDto pageRequestDto) {
+        this.uri = createUriComponentBuilder();
+
         return uri.scheme(protocol).host(host).port(port).path(this.path + path)
                 .query("pageNumber={pageNumber}&pageSize={pageSize}")
                 .build(Map.of("pageNumber", pageRequestDto.getPageNumber(),
@@ -49,6 +58,8 @@ public class URIBuilderStatistics implements URIBuilder {
 
     @Override
     public URI createURI(String path) {
+        this.uri = createUriComponentBuilder();
+
         return uri.scheme(protocol).host(host).port(port).path(this.path + path)
                 .build().toUri();
     }
