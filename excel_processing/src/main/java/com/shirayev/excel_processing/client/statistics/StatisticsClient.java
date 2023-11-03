@@ -19,7 +19,7 @@ public class StatisticsClient {
 
     private final TransferDataClient<FileDto> statisticsTransfer;
 
-    private FileRepository fileRepository;
+    private final FileRepository fileRepository;
 
     public FileDto handlerTransferData(FileDto fileDto) {
 
