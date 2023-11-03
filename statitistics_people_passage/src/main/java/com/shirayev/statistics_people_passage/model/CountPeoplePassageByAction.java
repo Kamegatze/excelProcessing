@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AvgAgeGroupByActionStatisticsPeoplePassage {
+public class CountPeoplePassageByAction {
 
     private String actions;
 
-    private Double age;
+    private Long count;
 
 }

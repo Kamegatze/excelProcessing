@@ -1,7 +1,7 @@
 package com.shirayev.statistics_people_passage.servicies;
 
 import com.shirayev.statistics_people_passage.dto.SheetsDto;
-import com.shirayev.statistics_people_passage.dto.page.PageDto;
+import com.shirayev.statistics_people_passage.entities.File;
 import com.shirayev.statistics_people_passage.entities.Sheets;
 import com.shirayev.statistics_people_passage.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +15,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SheetsService {
 
-    private SheetsRepository sheetsRepository;
+    private final SheetsRepository sheetsRepository;
 
-    public PageDto<SheetsDto> updateAndInsertOfData(PageDto<SheetsDto> sheetsDtoPageDto) {
-        List<Sheets> sheets = SheetsDto.getSheetsEntity(sheetsDtoPageDto.getContent());
+    public List<SheetsDto> updateAndInsertOfData(List<SheetsDto> sheetsDtoList, File file) {
+        List<Sheets> sheets = SheetsDto.getSheetsEntity(sheetsDtoList);
+
+        sheets.forEach(item -> {
+            item.setFile(file);
+        });
 
         sheets = sheetsRepository.saveAll(sheets);
 
-        sheetsDtoPageDto.setContent(SheetsDto.getSheetsDto(sheets));
-
-        return sheetsDtoPageDto;
+        return SheetsDto.getSheetsDto(sheets);
     }
 
 }

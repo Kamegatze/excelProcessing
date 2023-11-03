@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
@@ -21,4 +22,9 @@ public class SheetsNesting {
 
     private List<StatisticsPeoplePassageDto> peoplePassages;
 
+    private static ModelMapper model = new ModelMapper();
+
+    public static List<SheetsDto> getSheetsDto(List<SheetsNesting> sheetsNestings) {
+        return sheetsNestings.stream().map(item->model.map(item, SheetsDto.class)).toList();
+    }
 }

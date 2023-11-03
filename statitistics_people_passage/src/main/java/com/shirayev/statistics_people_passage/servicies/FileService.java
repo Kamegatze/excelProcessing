@@ -1,7 +1,6 @@
 package com.shirayev.statistics_people_passage.servicies;
 
 import com.shirayev.statistics_people_passage.dto.FileDto;
-import com.shirayev.statistics_people_passage.dto.page.PageDto;
 import com.shirayev.statistics_people_passage.entities.File;
 import com.shirayev.statistics_people_passage.repositories.FileRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +17,12 @@ public class FileService {
     private final FileRepository fileRepository;
 
     @Transactional
-    public PageDto<FileDto> updateAndInsertOfData(PageDto<FileDto> fileDtoPageDto) {
-        List<File> files = FileDto.getFileEntity(fileDtoPageDto.getContent());
+    public List<FileDto> updateAndInsertOfData(List<FileDto> fileDtoList) {
+        List<File> files = FileDto.getFileEntity(fileDtoList);
 
-        files = fileRepository.saveAll(files);
+        files = fileRepository.saveAllAndFlush(files);
 
-        fileDtoPageDto.setContent(FileDto.getFileDto(files));
-
-        return fileDtoPageDto;
+        return FileDto.getFileDto(files);
     }
 
 }
