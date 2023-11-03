@@ -30,9 +30,7 @@ public class FileController {
     @PostMapping("/write_file")
     public ResponseEntity<FileDto> handlerWriteFileInDatabase(@RequestParam MultipartFile file, UriComponentsBuilder uri) throws IOException {
 
-        FileDto fileDto = fileService.writeFileInDatabase(file);
-
-        fileDto = statisticsClient.handlerTransferData(fileDto);
+        FileDto fileDto = fileService.saveFile(file);
 
         return ResponseEntity.created(uri.path("/api/file/{id}").build(Map.of("id", fileDto.getId())))
                 .contentType(MediaType.APPLICATION_JSON)
