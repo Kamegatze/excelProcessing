@@ -11,6 +11,6 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "microservice")
 public class ConfigURIMicroService {
 
-    private Map<String, String> excelProcessing;
+    private Map<String, String> statistics;
 
 }

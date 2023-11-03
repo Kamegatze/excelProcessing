@@ -1,5 +1,5 @@
 microservice:
-  excelProcessing:
+  statistics:
     protocol: http
     host: localhost
     port: 9000
