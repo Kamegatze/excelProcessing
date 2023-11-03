@@ -37,17 +37,22 @@ public class FileService {
     }
 
     @Transactional
-    public FileDto save(FileNesting fileNesting) {
-        File file = fileRepository.save(model.map(fileNesting, File.class));
+    public FileDto saveNesting(FileNesting fileNesting) {
+        FileDto fileDto = save(model.map(fileNesting, FileDto.class));
 
-        sheetsService.updateAndInsertOfData(SheetsNesting.getSheetsDto(fileNesting.getSheets()), file);
+        sheetsService.updateAndInsertOfData(SheetsNesting.getSheetsDto(fileNesting.getSheets()), model.map(fileDto, File.class));
 
         fileNesting.getSheets().forEach(sheet -> statisticsPeoplePassageService.updateAndInsertOfData(
                 sheet.getPeoplePassages(),
                 model.map(sheet, Sheets.class)
         ));
 
-        return model.map(file, FileDto.class);
+        return fileDto;
+    }
+
+    @Transactional
+    public FileDto save(FileDto fileDto) {
+        return model.map(fileRepository.save(model.map(fileDto, File.class)), FileDto.class);
     }
 
 }

@@ -41,7 +41,7 @@ public class StatisticsController {
 
     @PostMapping("/save")
     public ResponseEntity<FileDto> handlerSaveFile(@RequestBody FileNesting fileNesting) {
-        FileDto fileDto = fileService.save(fileNesting);
+        FileDto fileDto = fileService.saveNesting(fileNesting);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
