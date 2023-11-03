@@ -2,10 +2,15 @@ package com.shirayev.excel_processing.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @Configuration
 public class ConfigBean {
@@ -25,5 +30,11 @@ public class ConfigBean {
     @Bean
     public RestOperations getRestTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public UriComponentsBuilder getUriComponentBuilder() {
+        return UriComponentsBuilder.newInstance();
     }
 }
