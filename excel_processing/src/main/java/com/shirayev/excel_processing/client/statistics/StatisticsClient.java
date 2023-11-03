@@ -3,10 +3,12 @@ package com.shirayev.excel_processing.client.statistics;
 import com.shirayev.excel_processing.client_micro_service.TransferDataClient;
 import com.shirayev.excel_processing.client_micro_service.uri.URIBuilder;
 import com.shirayev.excel_processing.dto.FileDto;
+import com.shirayev.excel_processing.dto.FileNesting;
 import com.shirayev.excel_processing.entities.File;
 import com.shirayev.excel_processing.repositories.FileRepository;
 import com.shirayev.excel_processing.servicies.FileService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
@@ -21,6 +23,8 @@ public class StatisticsClient {
 
     private final FileRepository fileRepository;
 
+    private final ModelMapper model;
+
     public FileDto handlerTransferData(FileDto fileDto) {
 
         Long fileId = fileDto.getId();
@@ -31,7 +35,7 @@ public class StatisticsClient {
                 );
 
         return statisticsTransfer.transferData(uriStatistics.createURI("/save"),
-                file,
+                model.map(file, FileNesting.class),
                 FileDto.class
         );
     }
