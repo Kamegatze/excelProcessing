@@ -1,5 +1,8 @@
 package com.shirayev.excel_processing.dto.error;
 
+import lombok.Getter;
+
+@Getter
 public enum ETypeError {
     IO_EXCEPTION(1),
     TITLE_EXCEPTION(2),
@@ -12,7 +15,4 @@ public enum ETypeError {
         this.code = code;
     }
 
-    public Integer getCode() {
-        return code;
-    }
 }

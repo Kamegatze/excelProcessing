@@ -1,5 +1,6 @@
 package com.shirayev.excel_processing.servicies;
 
+import com.shirayev.excel_processing.client.statistics.StatisticsClient;
 import com.shirayev.excel_processing.dto.FileDto;
 import com.shirayev.excel_processing.dto.FileNesting;
 import com.shirayev.excel_processing.dto.SheetsDto;
@@ -38,8 +39,17 @@ public class FileService {
     private final Parser<List<SheetsDto>> excelParser;
 
     private final ModelMapper model;
+
+    private final StatisticsClient statisticsClient;
+
     @Transactional
-    public FileDto writeFileInDatabase(MultipartFile multipartFile) throws IOException {
+    public FileDto saveFile(MultipartFile multipartFile) throws IOException {
+        FileDto fileDto = writeFileInDatabase(multipartFile);
+
+        return statisticsClient.handlerTransferData(fileDto);
+    }
+
+    private FileDto writeFileInDatabase(MultipartFile multipartFile) throws IOException {
 
         List<SheetsDto> sheetsDtoList;
 

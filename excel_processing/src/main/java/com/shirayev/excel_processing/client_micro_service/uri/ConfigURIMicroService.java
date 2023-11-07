@@ -1,4 +1,4 @@
-package com.shirayev.statistics_people_passage.client_micro_service.uri;
+package com.shirayev.excel_processing.client_micro_service.uri;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,6 +11,6 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "microservice")
 public class ConfigURIMicroService {
 
-    private Map<String, String> excelProcessing;
+    private Map<String, String> statistics;
 
 }

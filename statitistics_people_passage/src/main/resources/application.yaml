@@ -15,7 +15,7 @@ spring:
     change-log: classpath:db/changelog.xml
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/statistics-people-passage
+    url: jdbc:postgresql://localhost:5430/statistics-people-passage
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres

@@ -1,6 +1,7 @@
 package com.shirayev.excel_processing.controllers;
 
 
+import com.shirayev.excel_processing.client.statistics.StatisticsClient;
 import com.shirayev.excel_processing.dto.FileDto;
 import com.shirayev.excel_processing.dto.FileNesting;
 import com.shirayev.excel_processing.dto.page.PageDto;
@@ -24,10 +25,12 @@ public class FileController {
 
     private final FileService fileService;
 
+    private final StatisticsClient statisticsClient;
+
     @PostMapping("/write_file")
     public ResponseEntity<FileDto> handlerWriteFileInDatabase(@RequestParam MultipartFile file, UriComponentsBuilder uri) throws IOException {
 
-        FileDto fileDto = fileService.writeFileInDatabase(file);
+        FileDto fileDto = fileService.saveFile(file);
 
         return ResponseEntity.created(uri.path("/api/file/{id}").build(Map.of("id", fileDto.getId())))
                 .contentType(MediaType.APPLICATION_JSON)
