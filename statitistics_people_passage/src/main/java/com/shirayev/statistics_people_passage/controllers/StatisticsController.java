@@ -3,8 +3,6 @@ package com.shirayev.statistics_people_passage.controllers;
 
 import com.shirayev.statistics_people_passage.dto.FileDto;
 import com.shirayev.statistics_people_passage.dto.FileNesting;
-import com.shirayev.statistics_people_passage.dto.page.PageRequestDto;
-import com.shirayev.statistics_people_passage.entities.File;
 import com.shirayev.statistics_people_passage.model.CountPeoplePassageByAction;
 import com.shirayev.statistics_people_passage.servicies.FileService;
 import com.shirayev.statistics_people_passage.servicies.StatisticsService;

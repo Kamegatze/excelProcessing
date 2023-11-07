@@ -1,10 +1,8 @@
 package com.shirayev.statistics_people_passage.servicies;
 
 
-import com.shirayev.statistics_people_passage.dto.page.PageRequestDto;
 import com.shirayev.statistics_people_passage.model.CountPeoplePassageByAction;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

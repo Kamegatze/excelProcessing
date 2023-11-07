@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Configuration
 public class Config {
@@ -18,11 +17,6 @@ public class Config {
     @Bean
     public ModelMapper getModelMapper() {
         return new ModelMapper();
-    }
-
-    @Bean
-    public UriComponentsBuilder getURIComponentBuilder() {
-        return UriComponentsBuilder.newInstance();
     }
 
 }
