@@ -1,11 +1,16 @@
 package com.shirayev.excel_processing.servicies;
 
 import com.shirayev.excel_processing.dto.SheetsResponse;
+import com.shirayev.excel_processing.dto.page.PageDto;
+import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.entities.Sheets;
 import com.shirayev.excel_processing.repositories.FileRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +26,16 @@ public class SheetsService {
 
     private final ModelMapper model;
 
-    private final FileRepository fileRepository;
+    public PageDto<SheetsResponse> getSheets(PageRequestDto pageRequestDto) {
+        Page<Sheets> page = sheetsRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
 
-    public List<SheetsResponse> getSheets() {
-        return SheetsResponse.getSheetsResponse(sheetsRepository.findAll());
+        return PageDto.<SheetsResponse>builder()
+                .content(SheetsResponse.getSheetsResponse(page.getContent()))
+                .countPage(page.getTotalPages())
+                .countElements(page.getTotalElements())
+                .currentPage(pageRequestDto.getPageNumber())
+                .countElementsInPage(pageRequestDto.getPageSize())
+                .build();
     }
 
     public SheetsResponse getSheetById(Long id) {
@@ -33,11 +44,16 @@ public class SheetsService {
         ), SheetsResponse.class);
     }
 
-    public List<SheetsResponse> getSheetsByFileId(Long fileId) {
-        List<Sheets> sheets = fileRepository.findById(fileId)
-                .orElseThrow(() -> new NoSuchElementException("Файл с id: " + fileId + " не был найден"))
-                .getSheets();
-
-        return SheetsResponse.getSheetsResponse(sheets);
+    public PageDto<SheetsResponse> getSheetsByFileId(Long fileId, PageRequestDto pageRequestDto) {
+        Page<Sheets> page = sheetsRepository
+                .findByFileId(fileId, PageRequestDto.getPageRequest(pageRequestDto))
+                .orElseThrow(() -> new NoSuchElementException("Листы с file_id: " + fileId + "не были найдены"));
+        return PageDto.<SheetsResponse>builder()
+                .content(SheetsResponse.getSheetsResponse(page.getContent()))
+                .countPage(page.getTotalPages())
+                .countElements(page.getTotalElements())
+                .currentPage(pageRequestDto.getPageNumber())
+                .countElementsInPage(pageRequestDto.getPageSize())
+                .build();
     }
 }
