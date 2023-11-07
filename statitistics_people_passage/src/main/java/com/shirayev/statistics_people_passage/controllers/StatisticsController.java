@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api/statistics")
@@ -37,8 +38,8 @@ public class StatisticsController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<FileDto> handlerSaveFile(@RequestBody FileNesting fileNesting) {
-        FileDto fileDto = fileService.saveNesting(fileNesting);
+    public ResponseEntity<FileDto> handlerSaveFile(@RequestBody FileNesting fileNesting) throws ExecutionException, InterruptedException {
+        FileDto fileDto = fileService.saveNesting(fileNesting).get();
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
