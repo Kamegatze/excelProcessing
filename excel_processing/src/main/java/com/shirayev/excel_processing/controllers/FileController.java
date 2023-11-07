@@ -1,7 +1,6 @@
 package com.shirayev.excel_processing.controllers;
 
 
-import com.shirayev.excel_processing.client.statistics.StatisticsClient;
 import com.shirayev.excel_processing.dto.FileDto;
 import com.shirayev.excel_processing.dto.FileNesting;
 import com.shirayev.excel_processing.dto.page.PageDto;
@@ -11,12 +10,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,12 +31,13 @@ public class FileController {
 
     private final FileService fileService;
 
-    private final StatisticsClient statisticsClient;
-
     @PostMapping("/write_file")
-    public ResponseEntity<FileDto> handlerWriteFileInDatabase(@RequestParam MultipartFile file, UriComponentsBuilder uri) throws IOException {
+    public ResponseEntity<FileDto> handlerWriteFileInDatabase(@RequestParam MultipartFile file, UriComponentsBuilder uri)
+            throws IOException, ExecutionException, InterruptedException {
 
-        FileDto fileDto = fileService.saveFile(file);
+        CompletableFuture<FileDto> fileDtoFuture = fileService.saveFile(file);
+
+        FileDto fileDto = fileDtoFuture.get();
 
         return ResponseEntity.created(uri.path("/api/file/{id}").build(Map.of("id", fileDto.getId())))
                 .contentType(MediaType.APPLICATION_JSON)
