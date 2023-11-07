@@ -40,11 +40,8 @@ public class StatisticsPeoplePassageService {
         return StatisticsPeoplePassageDto.getStatisticsPeoplePassageDto(statisticsPeoplePassages);
     }
 
-    public List<CountPeoplePassageByAction> getStatisticsByActionAndAge(PageRequestDto pageRequestDto, Time start, Time end) {
-        Page<StatisticsPeoplePassage> pageStatisticsPeoplePassage = statisticsPeoplePassageRepository.findAllByTimeActionBetween(start, end,
-                PageRequestDto.getPageRequest(pageRequestDto));
-
-        List<StatisticsPeoplePassage> statisticsPeoplePassages = pageStatisticsPeoplePassage.getContent();
+    public List<CountPeoplePassageByAction> getStatisticsByActionAndAge(Time start, Time end) {
+        List<StatisticsPeoplePassage> statisticsPeoplePassages = statisticsPeoplePassageRepository.findAllByTimeActionBetween(start, end);
 
         /*
         * Нахождение количество прошедших людей по действию

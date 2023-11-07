@@ -19,7 +19,7 @@ public class StatisticsService {
     private final StatisticsPeoplePassageService statisticsPeoplePassageService;
 
     @Transactional
-    public List<CountPeoplePassageByAction> handlerGetStatisticsByActionAndAge(Time start, Time end, PageRequestDto pageRequestDto) {
-        return statisticsPeoplePassageService.getStatisticsByActionAndAge(pageRequestDto, start, end);
+    public List<CountPeoplePassageByAction> handlerGetStatisticsByActionAndAge(Time start, Time end) {
+        return statisticsPeoplePassageService.getStatisticsByActionAndAge(start, end);
     }
 }

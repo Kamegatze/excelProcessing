@@ -32,11 +32,10 @@ public class StatisticsController {
     private final FileService fileService;
 
     @GetMapping("")
-    public ResponseEntity<List<CountPeoplePassageByAction>> handlerAvgAgeByAction(@RequestParam Time start, @RequestParam Time end,
-                                                                                  PageRequestDto pageRequestDto) {
+    public ResponseEntity<List<CountPeoplePassageByAction>> handlerCountPeoplePassageByAction(@RequestParam Time start, @RequestParam Time end) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(statisticsService.handlerGetStatisticsByActionAndAge(start, end, pageRequestDto));
+                .body(statisticsService.handlerGetStatisticsByActionAndAge(start, end));
     }
 
     @PostMapping("/save")
