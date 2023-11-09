@@ -1,9 +1,8 @@
-excel_processing/HELP.md
+HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-docker-compose.yaml
 
 ### STS ###
 .apt_generated
@@ -32,5 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-*.yml
-*.txt
