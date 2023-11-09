@@ -1,4 +1,4 @@
-package com.shirayev.excel_processing.servicies;
+package com.shirayev.excel_processing.servicies.implementation;
 
 import com.shirayev.excel_processing.client.statistics.StatisticsClient;
 import com.shirayev.excel_processing.dto.FileDto;
@@ -13,6 +13,7 @@ import com.shirayev.excel_processing.parser.Parser;
 import com.shirayev.excel_processing.repositories.FileRepository;
 import com.shirayev.excel_processing.repositories.PeoplePassageRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
+import com.shirayev.excel_processing.servicies.IFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FileService {
+public class FileService implements IFileService {
 
     private final FileRepository fileRepository;
 
@@ -45,6 +46,7 @@ public class FileService {
     private final StatisticsClient statisticsClient;
 
     @Transactional
+    @Override
     public FileDto saveFile(MultipartFile multipartFile) throws IOException {
 
         log.info("Write file in database {}", multipartFile.getOriginalFilename());
@@ -94,12 +96,14 @@ public class FileService {
         return mapperClazz.getObject(file, FileDto.class);
     }
 
+    @Override
     public FileDto getFileById(Long id) {
         return mapperClazz.getObject(fileRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Файл с id: " + id + " не был найден")),
                 FileDto.class);
     }
 
+    @Override
     public PageDto<FileDto> getFiles(PageRequestDto pageRequestDto) {
 
         Page<File> pageFile = fileRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
@@ -114,6 +118,7 @@ public class FileService {
 
     }
 
+    @Override
     public PageDto<FileNesting> getFilesNesting(PageRequestDto pageRequestDto) {
 
         Page<File> pageFile = fileRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));

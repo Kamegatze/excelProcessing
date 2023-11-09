@@ -1,4 +1,4 @@
-package com.shirayev.excel_processing.servicies;
+package com.shirayev.excel_processing.servicies.implementation;
 
 import com.shirayev.excel_processing.dto.SheetsResponse;
 import com.shirayev.excel_processing.dto.page.PageDto;
@@ -6,6 +6,7 @@ import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.entities.Sheets;
 import com.shirayev.excel_processing.mapper.Mapper;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
+import com.shirayev.excel_processing.servicies.ISheetsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,13 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class SheetsService {
+public class SheetsService implements ISheetsService {
 
     private final SheetsRepository sheetsRepository;
 
     private final Mapper mapperClazz;
 
+    @Override
     public PageDto<SheetsResponse> getSheets(PageRequestDto pageRequestDto) {
         Page<Sheets> page = sheetsRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
 
@@ -34,12 +36,14 @@ public class SheetsService {
                 .build();
     }
 
+    @Override
     public SheetsResponse getSheetById(Long id) {
         return mapperClazz.getObject(sheetsRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Лист с id: " + id + " не был найден")
         ), SheetsResponse.class);
     }
 
+    @Override
     public PageDto<SheetsResponse> getSheetsByFileId(Long fileId, PageRequestDto pageRequestDto) {
         Page<Sheets> page = sheetsRepository
                 .findByFileId(fileId, PageRequestDto.getPageRequest(pageRequestDto))

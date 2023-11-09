@@ -3,7 +3,7 @@ package com.shirayev.excel_processing.controllers;
 import com.shirayev.excel_processing.dto.SheetsResponse;
 import com.shirayev.excel_processing.dto.page.PageDto;
 import com.shirayev.excel_processing.dto.page.PageRequestDto;
-import com.shirayev.excel_processing.servicies.SheetsService;
+import com.shirayev.excel_processing.servicies.ISheetsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/sheet")
 public class SheetsController {
 
-    private final SheetsService sheetsService;
+    private final ISheetsService sheetsService;
 
     @GetMapping("/all")
     public ResponseEntity<PageDto<SheetsResponse>> handlerGetSheets(PageRequestDto pageRequestDto) {
