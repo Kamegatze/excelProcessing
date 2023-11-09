@@ -4,8 +4,8 @@ package com.shirayev.statistics_people_passage.controllers;
 import com.shirayev.statistics_people_passage.dto.FileDto;
 import com.shirayev.statistics_people_passage.dto.FileNesting;
 import com.shirayev.statistics_people_passage.model.CountPeoplePassageByAction;
-import com.shirayev.statistics_people_passage.servicies.FileService;
-import com.shirayev.statistics_people_passage.servicies.StatisticsService;
+import com.shirayev.statistics_people_passage.servicies.IFileService;
+import com.shirayev.statistics_people_passage.servicies.IStatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,9 +25,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatisticsController {
 
-    private final StatisticsService statisticsService;
+    private final IStatisticsService statisticsService;
 
-    private final FileService fileService;
+    private final IFileService fileService;
 
     @GetMapping
     public ResponseEntity<List<CountPeoplePassageByAction>> handlerCountPeoplePassageByAction(@RequestParam Time start, @RequestParam Time end) {

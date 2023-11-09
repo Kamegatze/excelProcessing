@@ -1,4 +1,4 @@
-package com.shirayev.statistics_people_passage.servicies;
+package com.shirayev.statistics_people_passage.servicies.implementation;
 
 import com.shirayev.statistics_people_passage.dto.FileDto;
 import com.shirayev.statistics_people_passage.dto.FileNesting;
@@ -7,6 +7,7 @@ import com.shirayev.statistics_people_passage.entities.File;
 import com.shirayev.statistics_people_passage.entities.Sheets;
 import com.shirayev.statistics_people_passage.mapper.Mapper;
 import com.shirayev.statistics_people_passage.repositories.FileRepository;
+import com.shirayev.statistics_people_passage.servicies.IFileService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FileService {
+public class FileService implements IFileService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileService.class);
 
@@ -33,6 +34,7 @@ public class FileService {
 
     private final Mapper mapperClazz;
 
+    @Override
     @Transactional
     public List<FileDto> updateAndInsertOfData(List<FileDto> fileDtoList) {
         List<File> files = mapperClazz.getListObject(fileDtoList, File.class);
@@ -42,6 +44,7 @@ public class FileService {
         return mapperClazz.getListObject(files, FileDto.class);
     }
 
+    @Override
     @Transactional
     public FileDto saveNesting(FileNesting fileNesting) {
 
@@ -63,6 +66,7 @@ public class FileService {
         return fileDto;
     }
 
+    @Override
     @Transactional
     public FileDto save(FileDto fileDto) {
         return model.map(fileRepository.save(model.map(fileDto, File.class)), FileDto.class);
