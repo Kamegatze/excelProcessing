@@ -1,5 +1,6 @@
 package com.shirayev.excel_processing.servicies.implementation;
 
+import com.shirayev.excel_processing.client.statistics.IStatisticsClient;
 import com.shirayev.excel_processing.client.statistics.StatisticsClient;
 import com.shirayev.excel_processing.dto.FileDto;
 import com.shirayev.excel_processing.dto.FileNesting;
@@ -43,7 +44,7 @@ public class FileService implements IFileService {
 
     private final Mapper mapperClazz;
 
-    private final StatisticsClient statisticsClient;
+    private final IStatisticsClient statisticsClient;
 
     @Transactional
     @Override

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class StatisticsClient {
+public class StatisticsClient implements IStatisticsClient{
 
     private final URIBuilder uriStatistics;
 
@@ -24,6 +24,7 @@ public class StatisticsClient {
     private final ModelMapper model;
 
     @Async
+    @Override
     public void handlerTransferData(File file) {
 
         log.info("Send writing file with id: {} in microservice statistics", file.getId());
