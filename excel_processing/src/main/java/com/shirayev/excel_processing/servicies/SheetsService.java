@@ -4,9 +4,9 @@ import com.shirayev.excel_processing.dto.SheetsResponse;
 import com.shirayev.excel_processing.dto.page.PageDto;
 import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.entities.Sheets;
+import com.shirayev.excel_processing.mapper.Mapper;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +20,13 @@ public class SheetsService {
 
     private final SheetsRepository sheetsRepository;
 
-    private final ModelMapper model;
+    private final Mapper mapperClazz;
 
     public PageDto<SheetsResponse> getSheets(PageRequestDto pageRequestDto) {
         Page<Sheets> page = sheetsRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
 
         return PageDto.<SheetsResponse>builder()
-                .content(SheetsResponse.getSheetsResponse(page.getContent()))
+                .content(mapperClazz.getListObject(page.getContent(), SheetsResponse.class))
                 .countPage(page.getTotalPages())
                 .countElements(page.getTotalElements())
                 .currentPage(pageRequestDto.getPageNumber())
@@ -35,7 +35,7 @@ public class SheetsService {
     }
 
     public SheetsResponse getSheetById(Long id) {
-        return model.map(sheetsRepository.findById(id).orElseThrow(
+        return mapperClazz.getObject(sheetsRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Лист с id: " + id + " не был найден")
         ), SheetsResponse.class);
     }
@@ -45,7 +45,7 @@ public class SheetsService {
                 .findByFileId(fileId, PageRequestDto.getPageRequest(pageRequestDto))
                 .orElseThrow(() -> new NoSuchElementException("Листы с file_id: " + fileId + "не были найдены"));
         return PageDto.<SheetsResponse>builder()
-                .content(SheetsResponse.getSheetsResponse(page.getContent()))
+                .content(mapperClazz.getListObject(page.getContent(), SheetsResponse.class))
                 .countPage(page.getTotalPages())
                 .countElements(page.getTotalElements())
                 .currentPage(pageRequestDto.getPageNumber())

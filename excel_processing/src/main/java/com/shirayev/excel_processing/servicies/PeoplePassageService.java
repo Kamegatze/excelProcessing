@@ -4,9 +4,9 @@ import com.shirayev.excel_processing.dto.PeoplePassageDto;
 import com.shirayev.excel_processing.dto.page.PageDto;
 import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.entities.PeoplePassage;
+import com.shirayev.excel_processing.mapper.Mapper;
 import com.shirayev.excel_processing.repositories.PeoplePassageRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +21,14 @@ public class PeoplePassageService {
 
     private final PeoplePassageRepository peoplePassageRepository;
 
-    private final ModelMapper model;
+    private final Mapper mapperClazz;
 
     public PageDto<PeoplePassageDto> getPeoplePassagesBySheet(Long sheetId, PageRequestDto pageRequestDto) {
         Page<PeoplePassage> page = peoplePassageRepository
                 .findBySheetId(sheetId, PageRequestDto.getPageRequest(pageRequestDto))
                 .orElseThrow(() -> new NoSuchElementException("Записи с sheet_id: " + sheetId + " не были найдены"));
         return PageDto.<PeoplePassageDto>builder()
-                .content(PeoplePassageDto.getPeoplePassageDto(page.getContent()))
+                .content(mapperClazz.getListObject(page.getContent(), PeoplePassageDto.class))
                 .countPage(page.getTotalPages())
                 .countElements(page.getTotalElements())
                 .currentPage(pageRequestDto.getPageNumber())
@@ -37,7 +37,7 @@ public class PeoplePassageService {
     }
 
     public PeoplePassageDto getPeoplePassageById(Long id) {
-        return model.map(peoplePassageRepository.findById(id).orElseThrow(
+        return mapperClazz.getObject(peoplePassageRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Запись с id " + id + " не была найдена")
         ), PeoplePassageDto.class);
     }
@@ -46,7 +46,7 @@ public class PeoplePassageService {
         Page<PeoplePassage> page = peoplePassageRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
 
         return PageDto.<PeoplePassageDto>builder()
-                .content(PeoplePassageDto.getPeoplePassageDto(page.getContent()))
+                .content(mapperClazz.getListObject(page.getContent(), PeoplePassageDto.class))
                 .countPage(page.getTotalPages())
                 .countElements(page.getTotalElements())
                 .currentPage(pageRequestDto.getPageNumber())

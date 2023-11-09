@@ -8,13 +8,13 @@ import com.shirayev.excel_processing.dto.page.PageDto;
 import com.shirayev.excel_processing.dto.page.PageRequestDto;
 import com.shirayev.excel_processing.entities.File;
 import com.shirayev.excel_processing.entities.Sheets;
+import com.shirayev.excel_processing.mapper.Mapper;
 import com.shirayev.excel_processing.parser.Parser;
 import com.shirayev.excel_processing.repositories.FileRepository;
 import com.shirayev.excel_processing.repositories.PeoplePassageRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +40,7 @@ public class FileService {
 
     private final Parser<List<SheetsDto>> excelParser;
 
-    private final ModelMapper model;
+    private final Mapper mapperClazz;
 
     private final StatisticsClient statisticsClient;
 
@@ -66,7 +66,7 @@ public class FileService {
             sheetsDtoList = excelParser.parse(inputStream);
         }
 
-        List<Sheets> sheets = SheetsDto.getSheetsEntity(sheetsDtoList);
+        List<Sheets> sheets = mapperClazz.getListObject(sheetsDtoList, Sheets.class);
 
         File file = File.builder()
                 .name(multipartFile.getOriginalFilename())
@@ -91,11 +91,11 @@ public class FileService {
 
         });
 
-        return model.map(file, FileDto.class);
+        return mapperClazz.getObject(file, FileDto.class);
     }
 
     public FileDto getFileById(Long id) {
-        return model.map(fileRepository.findById(id)
+        return mapperClazz.getObject(fileRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Файл с id: " + id + " не был найден")),
                 FileDto.class);
     }
@@ -105,7 +105,7 @@ public class FileService {
         Page<File> pageFile = fileRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
 
         return PageDto.<FileDto>builder()
-                .content(FileDto.getFileDto(pageFile.getContent()))
+                .content(mapperClazz.getListObject(pageFile.getContent(), FileDto.class))
                 .countPage(pageFile.getTotalPages())
                 .countElements(pageFile.getTotalElements())
                 .currentPage(pageRequestDto.getPageNumber())
@@ -119,7 +119,7 @@ public class FileService {
         Page<File> pageFile = fileRepository.findAll(PageRequestDto.getPageRequest(pageRequestDto));
 
         return PageDto.<FileNesting>builder()
-                .content(FileNesting.getFileNesting(pageFile.getContent()))
+                .content(mapperClazz.getListObject(pageFile.getContent(), FileNesting.class))
                 .countPage(pageFile.getTotalPages())
                 .countElements(pageFile.getTotalElements())
                 .currentPage(pageRequestDto.getPageNumber())
