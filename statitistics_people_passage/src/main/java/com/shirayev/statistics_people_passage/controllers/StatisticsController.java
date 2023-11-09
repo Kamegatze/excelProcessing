@@ -29,7 +29,7 @@ public class StatisticsController {
 
     private final FileService fileService;
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<CountPeoplePassageByAction>> handlerCountPeoplePassageByAction(@RequestParam Time start, @RequestParam Time end) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
