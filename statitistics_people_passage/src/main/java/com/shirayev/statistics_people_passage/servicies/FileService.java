@@ -2,9 +2,10 @@ package com.shirayev.statistics_people_passage.servicies;
 
 import com.shirayev.statistics_people_passage.dto.FileDto;
 import com.shirayev.statistics_people_passage.dto.FileNesting;
-import com.shirayev.statistics_people_passage.dto.SheetsNesting;
+import com.shirayev.statistics_people_passage.dto.SheetsDto;
 import com.shirayev.statistics_people_passage.entities.File;
 import com.shirayev.statistics_people_passage.entities.Sheets;
+import com.shirayev.statistics_people_passage.mapper.Mapper;
 import com.shirayev.statistics_people_passage.repositories.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,13 +31,15 @@ public class FileService {
 
     private final StatisticsPeoplePassageService statisticsPeoplePassageService;
 
+    private final Mapper mapperClazz;
+
     @Transactional
     public List<FileDto> updateAndInsertOfData(List<FileDto> fileDtoList) {
-        List<File> files = FileDto.getFileEntity(fileDtoList);
+        List<File> files = mapperClazz.getListObject(fileDtoList, File.class);
 
         files = fileRepository.saveAllAndFlush(files);
 
-        return FileDto.getFileDto(files);
+        return mapperClazz.getListObject(files, FileDto.class);
     }
 
     @Transactional
@@ -48,7 +51,7 @@ public class FileService {
 
         LOGGER.info("Save sheets in file");
 
-        sheetsService.updateAndInsertOfData(SheetsNesting.getSheetsDto(fileNesting.getSheets()), model.map(fileDto, File.class));
+        sheetsService.updateAndInsertOfData(mapperClazz.getListObject(fileNesting.getSheets(), SheetsDto.class), model.map(fileDto, File.class));
 
         LOGGER.info("Save statistics_people_passage in sheets");
 
