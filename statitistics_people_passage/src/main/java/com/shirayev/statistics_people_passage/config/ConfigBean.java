@@ -7,7 +7,7 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class Config {
+public class ConfigBean {
 
     @Bean
     public RestOperations getRestTemplate() {
