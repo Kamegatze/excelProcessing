@@ -1,4 +1,4 @@
-package com.shirayev.excel_processing.client_micro_service;
+package com.shirayev.excel_processing.client.microservice;
 
 import java.net.URI;
 

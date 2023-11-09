@@ -1,4 +1,4 @@
-package com.shirayev.excel_processing.client_micro_service.uri;
+package com.shirayev.excel_processing.client.microservice.uri;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

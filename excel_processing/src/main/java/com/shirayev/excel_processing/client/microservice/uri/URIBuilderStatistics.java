@@ -1,4 +1,4 @@
-package com.shirayev.excel_processing.client_micro_service.uri;
+package com.shirayev.excel_processing.client.microservice.uri;
 
 
 import com.shirayev.excel_processing.dto.page.PageRequestDto;

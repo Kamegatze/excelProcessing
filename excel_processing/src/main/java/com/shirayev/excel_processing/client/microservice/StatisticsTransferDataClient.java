@@ -1,4 +1,4 @@
-package com.shirayev.excel_processing.client_micro_service;
+package com.shirayev.excel_processing.client.microservice;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,4 +1,4 @@
-package com.shirayev.excel_processing.custom_exception;
+package com.shirayev.excel_processing.custom.exception;
 
 import java.io.IOException;
 

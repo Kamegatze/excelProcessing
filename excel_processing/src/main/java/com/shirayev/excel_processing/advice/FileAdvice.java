@@ -1,8 +1,8 @@
 package com.shirayev.excel_processing.advice;
 
 import com.shirayev.excel_processing.controllers.FileController;
-import com.shirayev.excel_processing.custom_exception.EmptyValueInRecordException;
-import com.shirayev.excel_processing.custom_exception.TitleException;
+import com.shirayev.excel_processing.custom.exception.EmptyValueInRecordException;
+import com.shirayev.excel_processing.custom.exception.TitleException;
 import com.shirayev.excel_processing.dto.error.ETypeError;
 import com.shirayev.excel_processing.dto.error.ErrorDto;
 import org.springframework.http.HttpStatus;

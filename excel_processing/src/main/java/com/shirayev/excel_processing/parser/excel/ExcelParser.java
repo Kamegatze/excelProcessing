@@ -1,7 +1,7 @@
 package com.shirayev.excel_processing.parser.excel;
 
-import com.shirayev.excel_processing.custom_exception.EmptyValueInRecordException;
-import com.shirayev.excel_processing.custom_exception.TitleException;
+import com.shirayev.excel_processing.custom.exception.EmptyValueInRecordException;
+import com.shirayev.excel_processing.custom.exception.TitleException;
 import com.shirayev.excel_processing.dto.PeoplePassageDto;
 import com.shirayev.excel_processing.dto.SheetsDto;
 import com.shirayev.excel_processing.parser.Parser;

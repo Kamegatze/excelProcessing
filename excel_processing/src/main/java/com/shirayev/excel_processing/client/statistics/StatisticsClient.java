@@ -1,7 +1,7 @@
 package com.shirayev.excel_processing.client.statistics;
 
-import com.shirayev.excel_processing.client_micro_service.TransferDataClient;
-import com.shirayev.excel_processing.client_micro_service.uri.URIBuilder;
+import com.shirayev.excel_processing.client.microservice.TransferDataClient;
+import com.shirayev.excel_processing.client.microservice.uri.URIBuilder;
 import com.shirayev.excel_processing.dto.FileDto;
 import com.shirayev.excel_processing.dto.FileNesting;
 import com.shirayev.excel_processing.entities.File;
