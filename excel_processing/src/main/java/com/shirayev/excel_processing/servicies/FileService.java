@@ -17,7 +17,6 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional(readOnly = true)
@@ -48,15 +46,18 @@ public class FileService {
 
     private final StatisticsClient statisticsClient;
 
-    @Async
     @Transactional
-    public CompletableFuture<FileDto> saveFile(MultipartFile multipartFile) throws IOException {
+    public FileDto saveFile(MultipartFile multipartFile) throws IOException {
 
         LOGGER.info("Write file in database {}", multipartFile.getOriginalFilename());
         FileDto fileDto = writeFileInDatabase(multipartFile);
 
-        LOGGER.info("Send writing file with id: {} in microservice statistics", fileDto.getId());
-        return CompletableFuture.completedFuture(statisticsClient.handlerTransferData(fileDto));
+        File file = fileRepository.findById(fileDto.getId())
+                .orElseThrow(() -> new NoSuchElementException("Файл с id: " + fileDto.getId() + " не был найден"));
+
+        statisticsClient.handlerTransferData(file);
+
+        return fileDto;
     }
 
     private FileDto writeFileInDatabase(MultipartFile multipartFile) throws IOException {

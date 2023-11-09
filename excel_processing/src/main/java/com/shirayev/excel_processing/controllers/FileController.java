@@ -33,11 +33,9 @@ public class FileController {
 
     @PostMapping("/write_file")
     public ResponseEntity<FileDto> handlerWriteFileInDatabase(@RequestParam MultipartFile file, UriComponentsBuilder uri)
-            throws IOException, ExecutionException, InterruptedException {
+            throws IOException {
 
-        CompletableFuture<FileDto> fileDtoFuture = fileService.saveFile(file);
-
-        FileDto fileDto = fileDtoFuture.get();
+        FileDto fileDto = fileService.saveFile(file);
 
         return ResponseEntity.created(uri.path("/api/file/{id}").build(Map.of("id", fileDto.getId())))
                 .contentType(MediaType.APPLICATION_JSON)
