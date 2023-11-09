@@ -10,12 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,9 +39,8 @@ public class FileService {
         return FileDto.getFileDto(files);
     }
 
-    @Async
     @Transactional
-    public CompletableFuture<FileDto> saveNesting(FileNesting fileNesting) {
+    public FileDto saveNesting(FileNesting fileNesting) {
 
         LOGGER.info("Save file with id: {}", fileNesting.getId());
 
@@ -60,7 +57,7 @@ public class FileService {
                 model.map(sheet, Sheets.class)
         ));
 
-        return CompletableFuture.completedFuture(fileDto);
+        return fileDto;
     }
 
     @Transactional
