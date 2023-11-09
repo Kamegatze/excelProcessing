@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class FileService implements IFileService {
 
@@ -35,7 +35,6 @@ public class FileService implements IFileService {
     private final Mapper mapperClazz;
 
     @Override
-    @Transactional
     public List<FileDto> updateAndInsertOfData(List<FileDto> fileDtoList) {
         List<File> files = mapperClazz.getListObject(fileDtoList, File.class);
 
@@ -45,7 +44,6 @@ public class FileService implements IFileService {
     }
 
     @Override
-    @Transactional
     public FileDto saveNesting(FileNesting fileNesting) {
 
         LOGGER.info("Save file with id: {}", fileNesting.getId());
@@ -67,7 +65,6 @@ public class FileService implements IFileService {
     }
 
     @Override
-    @Transactional
     public FileDto save(FileDto fileDto) {
         return model.map(fileRepository.save(model.map(fileDto, File.class)), FileDto.class);
     }

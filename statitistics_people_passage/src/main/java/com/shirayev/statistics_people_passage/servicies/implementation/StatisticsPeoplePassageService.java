@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class StatisticsPeoplePassageService implements IStatisticsPeoplePassageService {
 
@@ -27,7 +27,6 @@ public class StatisticsPeoplePassageService implements IStatisticsPeoplePassageS
     private final Mapper mapperClazz;
 
     @Override
-    @Transactional
     public List<StatisticsPeoplePassageDto> updateAndInsertOfData(List<StatisticsPeoplePassageDto> statisticsPeoplePassageDtoList, Sheets sheets) {
         List<StatisticsPeoplePassage> statisticsPeoplePassages = mapperClazz.getListObject(
                 statisticsPeoplePassageDtoList,

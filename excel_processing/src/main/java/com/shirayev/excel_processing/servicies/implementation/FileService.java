@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class FileService implements IFileService {
 
@@ -46,7 +46,6 @@ public class FileService implements IFileService {
 
     private final IStatisticsClient statisticsClient;
 
-    @Transactional
     @Override
     public FileDto saveFile(MultipartFile multipartFile) throws IOException {
 
