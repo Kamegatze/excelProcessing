@@ -13,9 +13,8 @@ import com.shirayev.excel_processing.repositories.FileRepository;
 import com.shirayev.excel_processing.repositories.PeoplePassageRepository;
 import com.shirayev.excel_processing.repositories.SheetsRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +26,11 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class FileService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileService.class);
 
     private final FileRepository fileRepository;
 
@@ -49,7 +47,7 @@ public class FileService {
     @Transactional
     public FileDto saveFile(MultipartFile multipartFile) throws IOException {
 
-        LOGGER.info("Write file in database {}", multipartFile.getOriginalFilename());
+        log.info("Write file in database {}", multipartFile.getOriginalFilename());
         FileDto fileDto = writeFileInDatabase(multipartFile);
 
         File file = fileRepository.findById(fileDto.getId())
