@@ -26,8 +26,6 @@ public class FileService implements IFileService {
 
     private final FileRepository fileRepository;
 
-    private final ModelMapper model;
-
     private final SheetsService sheetsService;
 
     private final StatisticsPeoplePassageService statisticsPeoplePassageService;
@@ -47,7 +45,7 @@ public class FileService implements IFileService {
 
         log.info("Save file with id: {}", fileNesting.getId());
 
-        FileDto fileDto = save(model.map(fileNesting, FileDto.class));
+        FileDto fileDto = save(mapperClazz.getObject(fileNesting, FileDto.class));
 
         log.info("Save sheets in file");
 
@@ -57,7 +55,7 @@ public class FileService implements IFileService {
 
         fileNesting.getSheets().forEach(sheet -> statisticsPeoplePassageService.updateAndInsertOfData(
                 sheet.getPeoplePassages(),
-                model.map(sheet, Sheets.class)
+                mapperClazz.getObject(sheet, Sheets.class)
         ));
 
         return fileDto;
@@ -65,7 +63,7 @@ public class FileService implements IFileService {
 
     @Override
     public FileDto save(FileDto fileDto) {
-        return model.map(fileRepository.save(model.map(fileDto, File.class)), FileDto.class);
+        return mapperClazz.getObject(fileRepository.save(mapperClazz.getObject(fileDto, File.class)), FileDto.class);
     }
 
 }
