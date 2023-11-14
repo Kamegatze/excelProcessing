@@ -9,20 +9,20 @@ import com.shirayev.statistics.people.passage.entities.File;
 import com.shirayev.statistics.people.passage.entities.Sheets;
 import com.shirayev.statistics.people.passage.repositories.FileRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class FileService implements IFileService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileService.class);
 
     private final FileRepository fileRepository;
 
@@ -33,7 +33,6 @@ public class FileService implements IFileService {
     private final StatisticsPeoplePassageService statisticsPeoplePassageService;
 
     private final Mapper mapperClazz;
-
     @Override
     public List<FileDto> updateAndInsertOfData(List<FileDto> fileDtoList) {
         List<File> files = mapperClazz.getListObject(fileDtoList, File.class);
@@ -42,19 +41,19 @@ public class FileService implements IFileService {
 
         return mapperClazz.getListObject(files, FileDto.class);
     }
-
     @Override
-    public FileDto saveNesting(FileNesting fileNesting) {
+    @KafkaListener(topics = "${spring.kafka.topics.statistics.save-file}", groupId = "${spring.kafka.consumer.group-id}")
+    public FileDto saveNesting(@Payload FileNesting fileNesting) {
 
-        LOGGER.info("Save file with id: {}", fileNesting.getId());
+        log.info("Save file with id: {}", fileNesting.getId());
 
         FileDto fileDto = save(model.map(fileNesting, FileDto.class));
 
-        LOGGER.info("Save sheets in file");
+        log.info("Save sheets in file");
 
         sheetsService.updateAndInsertOfData(mapperClazz.getListObject(fileNesting.getSheets(), SheetsDto.class), model.map(fileDto, File.class));
 
-        LOGGER.info("Save statistics_people_passage in sheets");
+        log.info("Save statistics_people_passage in sheets");
 
         fileNesting.getSheets().forEach(sheet -> statisticsPeoplePassageService.updateAndInsertOfData(
                 sheet.getPeoplePassages(),
