@@ -10,7 +10,6 @@ import com.shirayev.statistics.people.passage.entities.Sheets;
 import com.shirayev.statistics.people.passage.repositories.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class FileService implements IFileService {
 
         log.info("Save sheets in file");
 
-        sheetsService.updateAndInsertOfData(mapperClazz.getListObject(fileNesting.getSheets(), SheetsDto.class), model.map(fileDto, File.class));
+        sheetsService.updateAndInsertOfData(mapperClazz.getListObject(fileNesting.getSheets(), SheetsDto.class), mapperClazz.getObject(fileDto, File.class));
 
         log.info("Save statistics_people_passage in sheets");
 
