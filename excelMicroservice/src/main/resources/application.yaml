@@ -22,3 +22,9 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog.xml
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    topics:
+      statistics:
+        save-file: statistics-save-file
