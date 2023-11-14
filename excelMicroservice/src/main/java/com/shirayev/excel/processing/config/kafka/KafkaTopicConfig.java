@@ -16,7 +16,7 @@ public class KafkaTopicConfig {
     private String kafkaAddress;
 
     @Value(value = "${spring.kafka.topics.statistics.save-file}")
-    private String statisticsSaveTopic;
+    private String statisticsSaveFileTopic;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -27,8 +27,8 @@ public class KafkaTopicConfig {
     }
 
     @Bean
-    public NewTopic topicStatistics() {
-        return new NewTopic(statisticsSaveTopic, 1, (short) 1);
+    public NewTopic topicSaveFileStatistics() {
+        return new NewTopic(statisticsSaveFileTopic, 1, (short) 1);
     }
 
 }
