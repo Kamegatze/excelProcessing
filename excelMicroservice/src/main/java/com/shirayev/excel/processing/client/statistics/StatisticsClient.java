@@ -2,7 +2,6 @@ package com.shirayev.excel.processing.client.statistics;
 
 import com.shirayev.excel.processing.client.microservice.TransferDataClient;
 import com.shirayev.excel.processing.dto.FileDto;
-import com.shirayev.excel.processing.client.microservice.uri.URIBuilder;
 import com.shirayev.excel.processing.dto.FileNesting;
 import com.shirayev.excel.processing.entities.File;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StatisticsClient implements IStatisticsClient{
 
-    private final URIBuilder uriStatistics;
-
-    private final TransferDataClient<FileDto> statisticsTransfer;
+    private final TransferDataClient<FileDto> statisticsKafkaTransferDataClient;
 
     private final ModelMapper model;
 
@@ -29,9 +26,8 @@ public class StatisticsClient implements IStatisticsClient{
 
         log.info("Send writing file with id: {} in microservice statistics", file.getId());
 
-        statisticsTransfer.transferData(uriStatistics.createURI("/save"),
-                model.map(file, FileNesting.class),
-                FileDto.class
+        statisticsKafkaTransferDataClient.transferData(
+                model.map(file, FileNesting.class)
         );
     }
 
