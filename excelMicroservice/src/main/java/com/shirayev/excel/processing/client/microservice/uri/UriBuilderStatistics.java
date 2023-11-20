@@ -5,7 +5,6 @@ import com.shirayev.excel.processing.dto.page.PageRequestDto;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,8 +16,7 @@ import java.util.Map;
 @Component
 @ToString
 @RequiredArgsConstructor
-@Qualifier("uriStatistics")
-public class URIBuilderStatistics implements URIBuilder {
+public class UriBuilderStatistics implements URIBuilder {
 
     private String protocol;
 
@@ -30,7 +28,7 @@ public class URIBuilderStatistics implements URIBuilder {
 
     private UriComponentsBuilder uri;
 
-    private final ConfigURIMicroService configURIMicroService;
+    private final ConfigUriMicroService configURIMicroService;
 
     private final ApplicationContext applicationContext;
 

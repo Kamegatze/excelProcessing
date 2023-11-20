@@ -28,7 +28,6 @@ import java.util.Set;
 
 @Data
 @Component
-@Qualifier("excelParser")
 public class ExcelParser implements Parser<List<SheetsDto>> {
 
 
