@@ -1,7 +1,11 @@
 package com.shirayev.excel.processing.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shirayev.excel.processing.dto.FileDto;
+import com.shirayev.excel.processing.dto.FileNesting;
+import com.shirayev.excel.processing.dto.PeoplePassageDto;
+import com.shirayev.excel.processing.dto.SheetsNesting;
 import com.shirayev.excel.processing.dto.page.PageDto;
 import com.shirayev.excel.processing.dto.page.PageRequestDto;
 import com.shirayev.excel.processing.servicies.IFileService;
@@ -20,6 +24,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+import java.sql.Time;
 import java.util.List;
 
 
@@ -132,7 +138,106 @@ public class FileControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
                 .andReturn();
         Mockito.verify(fileService, Mockito.times(1)).getFiles(pageRequestDto);
-        String body = resultActions.getResponse().getContentAsString();
+        String body = resultActions.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        Assertions.assertEquals(body, objectMapper.writeValueAsString(pageDto));
+    }
+
+    @Test
+    void handlerGetFilesNesting_IsOk_ReturnPageFileNesting() throws Exception {
+        /*
+        * given
+        * */
+
+        List<SheetsNesting> sheetsNestingList = List.of(
+                SheetsNesting.builder()
+                        .id(1L)
+                        .title("main")
+                        .peoplePassages(List.of(
+                                PeoplePassageDto.builder()
+                                        .id(1L)
+                                        .action("Вошел")
+                                        .age(20)
+                                        .first_name("Алексей")
+                                        .last_name("Ширяев")
+                                        .patronymic("Павлович")
+                                        .timeAction(Time.valueOf("16:00:00"))
+                                        .build(),
+                                PeoplePassageDto.builder()
+                                        .id(2L)
+                                        .action("Вышел")
+                                        .age(20)
+                                        .first_name("Виктор")
+                                        .last_name("Кулаков")
+                                        .patronymic("Андреевич")
+                                        .timeAction(Time.valueOf("15:00:00"))
+                                        .build()
+                        ))
+                        .build(),
+                SheetsNesting.builder()
+                        .id(2L)
+                        .title("other")
+                        .peoplePassages(List.of(
+                                PeoplePassageDto.builder()
+                                        .id(3L)
+                                        .action("Вошел")
+                                        .age(20)
+                                        .first_name("Андрей")
+                                        .last_name("Скрипка")
+                                        .patronymic("Викторович")
+                                        .timeAction(Time.valueOf("17:00:00"))
+                                        .build(),
+                                PeoplePassageDto.builder()
+                                        .id(4L)
+                                        .action("Вышел")
+                                        .age(20)
+                                        .first_name("Иван")
+                                        .last_name("Романов")
+                                        .patronymic("Валерьевич")
+                                        .timeAction(Time.valueOf("17:30:00"))
+                                        .build()
+                        ))
+                        .build()
+        );
+
+        List<FileNesting> fileNestingList = List.of(
+            FileNesting.builder()
+                    .id(1L)
+                    .name("other_name")
+                    .sheets(sheetsNestingList)
+                    .build()
+        );
+
+        PageRequestDto pageRequestDto = new PageRequestDto();
+
+        PageDto<FileNesting> pageDto = PageDto.<FileNesting>builder()
+                .content(fileNestingList)
+                .currentPage(pageRequestDto.getPageNumber())
+                .countElementsInPage(pageRequestDto.getPageSize())
+                .countPage(1)
+                .countElements((long) fileNestingList.size())
+                .build();
+
+        /*
+        * when
+        * */
+
+        Mockito.when(fileService.getFilesNesting(pageRequestDto)).thenReturn(pageDto);
+
+        /*
+        * then
+        * */
+        MvcResult resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/file/all/nesting")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.currentPage").value(pageDto.getCurrentPage()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.countElementsInPage").value(pageDto.getCountElementsInPage()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.countPage").value(pageDto.getCountPage()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.countElements").value(pageDto.getCountElements()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
+                .andReturn();
+        Mockito.verify(fileService, Mockito.times(1)).getFilesNesting(pageRequestDto);
+        String body = resultActions.getResponse().getContentAsString(StandardCharsets.UTF_8);
         Assertions.assertEquals(body, objectMapper.writeValueAsString(pageDto));
     }
 }
