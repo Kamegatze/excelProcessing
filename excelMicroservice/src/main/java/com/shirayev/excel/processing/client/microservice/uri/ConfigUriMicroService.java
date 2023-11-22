@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 @Component
 @ConfigurationProperties(prefix = "microservice")
-public class ConfigURIMicroService {
+public class ConfigUriMicroService {
 
     private Map<String, String> statistics;
 

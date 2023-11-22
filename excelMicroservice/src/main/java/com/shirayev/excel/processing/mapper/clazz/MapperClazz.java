@@ -10,7 +10,6 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Qualifier("mapperClazz")
 public class MapperClazz implements Mapper {
 
     private final ModelMapper model;
