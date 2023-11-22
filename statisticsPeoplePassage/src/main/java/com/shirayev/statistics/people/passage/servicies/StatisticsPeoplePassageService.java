@@ -7,7 +7,7 @@ import com.shirayev.statistics.people.passage.model.CountPeoplePassageByAction;
 import java.sql.Time;
 import java.util.List;
 
-public interface IStatisticsPeoplePassageService {
+public interface StatisticsPeoplePassageService {
 
     List<StatisticsPeoplePassageDto> updateAndInsertOfData(List<StatisticsPeoplePassageDto> statisticsPeoplePassageDtoList, Sheets sheets);
 

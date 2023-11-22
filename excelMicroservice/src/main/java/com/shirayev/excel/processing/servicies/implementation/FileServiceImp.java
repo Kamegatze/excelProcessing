@@ -6,7 +6,7 @@ import com.shirayev.excel.processing.dto.page.PageRequestDto;
 import com.shirayev.excel.processing.entities.File;
 import com.shirayev.excel.processing.mapper.Mapper;
 import com.shirayev.excel.processing.repositories.FileRepository;
-import com.shirayev.excel.processing.client.statistics.IStatisticsClient;
+import com.shirayev.excel.processing.client.statistics.StatisticsClient;
 import com.shirayev.excel.processing.dto.FileNesting;
 import com.shirayev.excel.processing.dto.SheetsDto;
 import com.shirayev.excel.processing.entities.Sheets;
@@ -43,7 +43,7 @@ public class FileServiceImp implements FileService {
 
     private final Mapper mapperClazz;
 
-    private final IStatisticsClient statisticsClient;
+    private final StatisticsClient statisticsClient;
 
     @Override
     public FileDto saveFile(MultipartFile multipartFile) throws IOException {

@@ -5,7 +5,7 @@ import com.shirayev.statistics.people.passage.dto.FileNesting;
 
 import java.util.List;
 
-public interface IFileService {
+public interface FileService {
 
     List<FileDto> updateAndInsertOfData(List<FileDto> fileDtoList);
 
