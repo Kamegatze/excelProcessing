@@ -5,7 +5,7 @@ import com.shirayev.statistics.people.passage.model.CountPeoplePassageByAction;
 import java.sql.Time;
 import java.util.List;
 
-public interface IStatisticsService {
+public interface StatisticsService {
 
     List<CountPeoplePassageByAction> handlerGetStatisticsByActionAndAge(Time start, Time end);
 

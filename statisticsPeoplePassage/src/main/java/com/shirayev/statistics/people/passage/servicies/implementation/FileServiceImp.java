@@ -1,7 +1,7 @@
 package com.shirayev.statistics.people.passage.servicies.implementation;
 
 import com.shirayev.statistics.people.passage.mapper.Mapper;
-import com.shirayev.statistics.people.passage.servicies.IFileService;
+import com.shirayev.statistics.people.passage.servicies.FileService;
 import com.shirayev.statistics.people.passage.dto.FileDto;
 import com.shirayev.statistics.people.passage.dto.FileNesting;
 import com.shirayev.statistics.people.passage.dto.SheetsDto;
@@ -21,13 +21,13 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class FileService implements IFileService {
+public class FileServiceImp implements FileService {
 
     private final FileRepository fileRepository;
 
-    private final SheetsService sheetsService;
+    private final SheetsServiceImp sheetsService;
 
-    private final StatisticsPeoplePassageService statisticsPeoplePassageService;
+    private final StatisticsPeoplePassageServiceImp statisticsPeoplePassageService;
 
     private final Mapper mapperClazz;
     @Override

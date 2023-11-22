@@ -5,7 +5,7 @@ import com.shirayev.excel.processing.dto.page.PageDto;
 import com.shirayev.excel.processing.dto.page.PageRequestDto;
 import com.shirayev.excel.processing.mapper.Mapper;
 import com.shirayev.excel.processing.repositories.SheetsRepository;
-import com.shirayev.excel.processing.servicies.ISheetsService;
+import com.shirayev.excel.processing.servicies.SheetsService;
 import com.shirayev.excel.processing.entities.Sheets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class SheetsService implements ISheetsService {
+public class SheetsServiceImp implements SheetsService {
 
     private final SheetsRepository sheetsRepository;
 

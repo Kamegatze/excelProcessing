@@ -1,7 +1,7 @@
 package com.shirayev.statistics.people.passage.servicies.implementation;
 
 import com.shirayev.statistics.people.passage.mapper.Mapper;
-import com.shirayev.statistics.people.passage.servicies.ISheetsService;
+import com.shirayev.statistics.people.passage.servicies.SheetsService;
 import com.shirayev.statistics.people.passage.dto.SheetsDto;
 import com.shirayev.statistics.people.passage.entities.File;
 import com.shirayev.statistics.people.passage.entities.Sheets;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class SheetsService implements ISheetsService {
+public class SheetsServiceImp implements SheetsService {
 
     private final SheetsRepository sheetsRepository;
 

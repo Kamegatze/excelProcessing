@@ -4,7 +4,7 @@ import com.shirayev.excel.processing.dto.page.PageDto;
 import com.shirayev.excel.processing.dto.page.PageRequestDto;
 import com.shirayev.excel.processing.mapper.Mapper;
 import com.shirayev.excel.processing.repositories.PeoplePassageRepository;
-import com.shirayev.excel.processing.servicies.IPeoplePassageService;
+import com.shirayev.excel.processing.servicies.PeoplePassageService;
 import com.shirayev.excel.processing.dto.PeoplePassageDto;
 import com.shirayev.excel.processing.entities.PeoplePassage;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class PeoplePassageService implements IPeoplePassageService {
+public class PeoplePassageServiceImp implements PeoplePassageService {
 
     private final PeoplePassageRepository peoplePassageRepository;
 

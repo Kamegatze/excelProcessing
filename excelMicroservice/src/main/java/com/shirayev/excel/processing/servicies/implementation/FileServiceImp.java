@@ -6,14 +6,14 @@ import com.shirayev.excel.processing.dto.page.PageRequestDto;
 import com.shirayev.excel.processing.entities.File;
 import com.shirayev.excel.processing.mapper.Mapper;
 import com.shirayev.excel.processing.repositories.FileRepository;
-import com.shirayev.excel.processing.client.statistics.IStatisticsClient;
+import com.shirayev.excel.processing.client.statistics.StatisticsClient;
 import com.shirayev.excel.processing.dto.FileNesting;
 import com.shirayev.excel.processing.dto.SheetsDto;
 import com.shirayev.excel.processing.entities.Sheets;
 import com.shirayev.excel.processing.parser.Parser;
 import com.shirayev.excel.processing.repositories.PeoplePassageRepository;
 import com.shirayev.excel.processing.repositories.SheetsRepository;
-import com.shirayev.excel.processing.servicies.IFileService;
+import com.shirayev.excel.processing.servicies.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,7 +31,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class FileService implements IFileService {
+public class FileServiceImp implements FileService {
 
     private final FileRepository fileRepository;
 
@@ -43,7 +43,7 @@ public class FileService implements IFileService {
 
     private final Mapper mapperClazz;
 
-    private final IStatisticsClient statisticsClient;
+    private final StatisticsClient statisticsClient;
 
     @Override
     public FileDto saveFile(MultipartFile multipartFile) throws IOException {

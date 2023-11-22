@@ -6,7 +6,7 @@ import com.shirayev.statistics.people.passage.entities.Sheets;
 import com.shirayev.statistics.people.passage.entities.StatisticsPeoplePassage;
 import com.shirayev.statistics.people.passage.model.CountPeoplePassageByAction;
 import com.shirayev.statistics.people.passage.repositories.StatisticsPeoplePassageRepository;
-import com.shirayev.statistics.people.passage.servicies.IStatisticsPeoplePassageService;
+import com.shirayev.statistics.people.passage.servicies.StatisticsPeoplePassageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class StatisticsPeoplePassageService implements IStatisticsPeoplePassageService {
+public class StatisticsPeoplePassageServiceImp implements StatisticsPeoplePassageService {
 
     private final StatisticsPeoplePassageRepository statisticsPeoplePassageRepository;
 

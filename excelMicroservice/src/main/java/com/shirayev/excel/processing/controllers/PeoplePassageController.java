@@ -2,7 +2,7 @@ package com.shirayev.excel.processing.controllers;
 
 import com.shirayev.excel.processing.dto.page.PageDto;
 import com.shirayev.excel.processing.dto.page.PageRequestDto;
-import com.shirayev.excel.processing.servicies.IPeoplePassageService;
+import com.shirayev.excel.processing.servicies.PeoplePassageService;
 import com.shirayev.excel.processing.dto.PeoplePassageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PeoplePassageController {
 
-    private final IPeoplePassageService peoplePassageService;
+    private final PeoplePassageService peoplePassageService;
 
     @GetMapping("/{id}")
     public ResponseEntity<PeoplePassageDto> handlerGetPeoplePassage(@PathVariable Long id) {

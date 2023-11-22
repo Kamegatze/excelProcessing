@@ -5,7 +5,7 @@ import com.shirayev.excel.processing.dto.FileDto;
 import com.shirayev.excel.processing.dto.page.PageRequestDto;
 import com.shirayev.excel.processing.dto.FileNesting;
 import com.shirayev.excel.processing.dto.page.PageDto;
-import com.shirayev.excel.processing.servicies.IFileService;
+import com.shirayev.excel.processing.servicies.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +27,7 @@ import java.util.Map;
 @RequestMapping("/api/file")
 public class FileController {
 
-    private final IFileService fileService;
+    private final FileService fileService;
 
     @PostMapping("/write_file")
     public ResponseEntity<FileDto> handlerWriteFileInDatabase(@RequestParam MultipartFile file, UriComponentsBuilder uri)

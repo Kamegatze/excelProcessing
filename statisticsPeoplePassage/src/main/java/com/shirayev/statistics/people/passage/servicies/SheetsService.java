@@ -5,7 +5,7 @@ import com.shirayev.statistics.people.passage.entities.File;
 
 import java.util.List;
 
-public interface ISheetsService {
+public interface SheetsService {
 
     List<SheetsDto> updateAndInsertOfData(List<SheetsDto> sheetsDtoList, File file);
 
