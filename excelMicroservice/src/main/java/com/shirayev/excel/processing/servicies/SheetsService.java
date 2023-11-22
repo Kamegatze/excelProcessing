@@ -4,7 +4,7 @@ import com.shirayev.excel.processing.dto.SheetsResponse;
 import com.shirayev.excel.processing.dto.page.PageDto;
 import com.shirayev.excel.processing.dto.page.PageRequestDto;
 
-public interface ISheetsService {
+public interface SheetsService {
 
     PageDto<SheetsResponse> getSheets(PageRequestDto pageRequestDto);
 

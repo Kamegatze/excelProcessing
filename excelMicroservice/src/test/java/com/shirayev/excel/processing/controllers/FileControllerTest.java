@@ -1,6 +1,5 @@
 package com.shirayev.excel.processing.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shirayev.excel.processing.dto.FileDto;
 import com.shirayev.excel.processing.dto.FileNesting;
@@ -8,7 +7,7 @@ import com.shirayev.excel.processing.dto.PeoplePassageDto;
 import com.shirayev.excel.processing.dto.SheetsNesting;
 import com.shirayev.excel.processing.dto.page.PageDto;
 import com.shirayev.excel.processing.dto.page.PageRequestDto;
-import com.shirayev.excel.processing.servicies.IFileService;
+import com.shirayev.excel.processing.servicies.FileService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,7 +32,7 @@ import java.util.List;
 public class FileControllerTest {
 
     @MockBean
-    private IFileService fileService;
+    private FileService fileService;
 
     @Autowired
     private MockMvc mockMvc;
